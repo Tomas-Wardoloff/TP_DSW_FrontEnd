@@ -1,13 +1,19 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router'; // Importar RouterOutlet para el enrutamiento
 
 @Component({
-  selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  selector: 'app-root',
+  templateUrl: './app.component.html',  // Asegúrate de tener este archivo
+  styleUrls: ['./app.component.css'],    // Asegúrate de tener este archivo
+  imports: [CommonModule, RouterOutlet],  // Importar CommonModule y RouterOutlet
 })
 export class AppComponent {
-  title = 'TP_DSW_FrontEnd';
+  title = 'Mi Aplicación Angular';  // Título de tu aplicación
+
+  constructor() {
+    // Aquí puedes inicializar cualquier dato necesario
+  }
 }
+
