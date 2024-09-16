@@ -1,5 +1,31 @@
-<form formGroup="signUpForm" (ngSubmit)="onSubmit()">
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Trabajo DSW</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <!-- <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">Login 1</a></li>
+      <li><a href="#">Page 2</a></li> -->
+    </ul>
+    <ul class="nav justify-content-end">
+      <li class = "nav-item"><a href="./login"><span class="glyphicon glyphicon-log-in"></span> Iniciar Sesión</a></li>
+      <!-- Enlace al componente SignUp -->
+    </ul>
+  </div>
+</nav>
+<form formGroup = "signUpForm" (ngSubmit)="onSubmit()">
   <h2>Registro</h2>
+  
+<!--   <div>
+    <label for="nombre">Nombre:</label>
+    <input id="nombre" type="nombre" formControlName="nombre" required />
+  </div>
+  <div>
+    <label for="apellido">Apellido:</label>
+    <input id="apellido" type="apellido" formControlName="apellido" required />
+  </div> -->
+    
 
   <div>
     <label for="email">Correo Electrónico:</label>
@@ -28,3 +54,7 @@
 
   <button type="submit">Registrarse</button>
 </form>
+
+
+
+

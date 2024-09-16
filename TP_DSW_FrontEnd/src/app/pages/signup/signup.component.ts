@@ -1,7 +1,7 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder,FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service.js'; // Importa el servicio que creaste
-
 @Component({
   standalone: true,
   selector: 'app-signup',
@@ -13,9 +13,11 @@ export class SignUpComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private authService: AuthService) {
     this.signUpForm = this.fb.group({
+      /* nombre: ['',[Validators.required, Validators.maxLength(20)]],
+      apellido: ['',[Validators.required, Validators.maxLength(30)]], */
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      phone: ['', [Validators.required, Validators.pattern(/^[0-9]*$/)]],
+      password: ['', [Validators.required,Validators.minLength(8),Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[\W_]).{6,}$/)]], // Mínimo una mayúscula, una minúscula, un número y un carácter especial]],
+      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
       userType: ['', Validators.required],
     });
   }
@@ -39,4 +41,3 @@ export class SignUpComponent implements OnInit {
     }
   }
 }
-
