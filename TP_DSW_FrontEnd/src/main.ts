@@ -1,10 +1,11 @@
 import { enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';  // Ajusta la ruta según tu estructura
-import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { routes } from './app/app.routes.js';
+import { AppModule } from './app/app.module'; // Asegúrate de que la ruta al AppModule sea correcta
 
 //if (/* condición para producción */) {  // Cambia esto según tu lógica de producción
 //  enableProdMode();
@@ -13,9 +14,8 @@ import { routes } from './app/app.routes.js';
 bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(
-      HttpClientModule,
-      RouterModule.forRoot(routes)  // Configura el enrutador aquí
+      RouterModule.forRoot(routes)  // Configura las rutas de tu aplicación
     ),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch()),  // Proporciona el HttpClient con la opción de fetch
   ]
 }).catch(err => console.error(err));
