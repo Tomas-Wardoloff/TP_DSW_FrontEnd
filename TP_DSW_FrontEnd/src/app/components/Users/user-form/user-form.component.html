@@ -53,6 +53,11 @@
       <div *ngIf="userForm.get('athleteDetails.lastname')!.invalid && userForm.get('athleteDetails.lastname')!.touched">
         <small *ngIf="userForm.get('athleteDetails.lastname')!.errors?.['required']">Last Name is required.</small>
       </div>
+      <label for="nationality">Nationality:</label>
+      <input id="nationality" formControlName="nationality" required>
+      <div *ngIf="userForm.get('athleteDetails.nationality')!.invalid && userForm.get('athleteDetails.nationality')!.touched">
+        <small *ngIf="userForm.get('athleteDetails.nationality')!.errors?.['required']">Nationality is required.</small>
+      </div>
 
       <label for="sport">Sport:</label>
       <input id="sport" formControlName="sport" required>

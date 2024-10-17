@@ -23,8 +23,9 @@ export class UserListComponent implements OnInit {
   fetchUsers(): void {
     this.userService.getUsers().subscribe({
       next: (data) => {
-        this.users = data;
+        this.users = data;  // Asegúrate de que sea un array
         this.isLoading = false;
+        
       },
       error: (err) => {
         this.error = 'Error al cargar los usuarios';

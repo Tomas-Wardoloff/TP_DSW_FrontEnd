@@ -7,7 +7,7 @@ import { Club } from '../models/club.model'; // Importa tu modelo
   providedIn: 'root'
 })
 export class ClubService {
-  private apiUrl = 'http://localhost:3000/api/club'; // Cambia esto a tu endpoint
+  private apiUrl = 'http://localhost:3000/api/clubs'; // Cambia esto a tu endpoint
 
   constructor(private http: HttpClient) {}
   getClub(id: number): Observable<Club> {

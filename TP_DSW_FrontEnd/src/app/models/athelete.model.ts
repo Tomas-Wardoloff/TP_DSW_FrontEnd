@@ -6,9 +6,9 @@ export interface Athlete extends User {
   firstName: string;
   lastName: string;
   birthDate: Date;
+  nationality: string;
   sport: string;
   position: string;
   isSigned: Boolean;
   userId: number;
-  // Otros atributos específicos de Athlete
 }

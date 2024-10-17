@@ -10,6 +10,7 @@
   <table class="table">
     <thead>
       <tr>
+        <th>ID</th>
         <th>Email</th>
         <th>Tipo de Usuario</th>
         <th>Teléfono</th>
@@ -19,13 +20,15 @@
     </thead>
     <tbody>
       <tr *ngFor="let user of users">
+        <td>{{ user.id }}</td>
+
         <td>{{ user.email }}</td>
         <td>{{ user.userType }}</td>
         <td>{{ user.phoneNumber }}</td>
-        <td>{{ user.lastLogin | date:'short' }}</td>
+        <td>{{ user.lastLogin }}</td>
         <td>
-          <button (click)="editUser(user.userId)" class="btn btn-warning">Editar</button>
-          <button (click)="deleteUser(user.userId)" class="btn btn-danger">Eliminar</button>
+          <button *ngIf="user.id !== undefined" (click)="editUser(user.id!)" class="btn btn-warning">Editar</button>
+          <button *ngIf="user.id !== undefined" (click)="deleteUser(user.id!)" class="btn btn-danger">Eliminar</button>
         </td>
       </tr>
     </tbody>

@@ -49,5 +49,8 @@ export class AgentListComponent implements OnInit {
   editAgent(id: number): void {
     this.router.navigate(['/agents/edit', id]);
   }
+  navigateToNewUser(): void {
+    this.router.navigate(['/users/new']); // Navega al formulario para crear un nuevo usuario
+  }
 }
 

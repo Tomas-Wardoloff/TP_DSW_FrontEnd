@@ -15,7 +15,7 @@ import { User, UserType } from '../../../models/user.model';
 export class UserFormComponent implements OnInit {
   userForm: FormGroup;
   isEditMode: boolean = false;
-  userId: number | null = null;
+  id: number | null = null;
   error: string = '';
   
   // Enumeración de los tipos de usuarios
@@ -37,11 +37,12 @@ export class UserFormComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       phoneNumber: ['', [Validators.required, Validators.minLength(9)]],
-      userType: [UserType.ATHLETE, Validators.required], // Campo para seleccionar el tipo de usuario
+      userType: [ Validators.required], // Campo para seleccionar el tipo de usuario
       // Atributos dinámicos de subclases
       athleteDetails: this.fb.group({
         firstname: ['', Validators.required, ],
         lastname: ['', Validators.required, ],
+        nationality: ['', Validators.required, ],
         sport: ['', Validators.required, ],
         position: ['', Validators.required, ],
         isSigned: [false, Validators.required, ],//Bool
@@ -49,9 +50,9 @@ export class UserFormComponent implements OnInit {
         //userId: ['', Validators.required, ],
 
       }),
-      clubDetails: this.fb.group({
+      /* clubDetails: this.fb.group({
         name: ['', Validators.required, ],
-        adress: ['', Validators.required, ],
+        address: ['', Validators.required, ],
         openingDate: ['', Validators.required, ],//Date,
         //userId: ['', Validators.required, ]
       }),
@@ -60,18 +61,41 @@ export class UserFormComponent implements OnInit {
         lastName: ['', Validators.required, ],
         //userId: ['', Validators.required, ],
         clubId: ['', Validators.required, ],
-      })
+      }) */
     });
+
   }
 
   ngOnInit(): void {
+    this.userForm.valueChanges.subscribe(() => {
+      this.checkFormValidity();
+    });
+  
+
+  // Monitorear los cambios de valor en todo el formulario
+    this.userForm.valueChanges.subscribe(value => {
+    console.log('Estado del formulario:', this.userForm.status);  // INVALID o VALID
+    console.log('Valores actuales del formulario:', value);})  // Valore
     this.route.paramMap.subscribe(params => {
-      const idParam = params.get('userId');
+      const idParam = params.get('id');
+
       if (idParam) {
         this.isEditMode = true;
-        this.userId = +idParam;
-        this.loadUser(this.userId);
+        this.id = +idParam;
+        this.loadUser(this.id);
+        this.loadAthleteForm(this.id);
         this.loadClubs();
+
+
+      }
+    });
+  }
+  checkFormValidity(): void {
+    // Iterar sobre cada control en el formulario
+    Object.keys(this.userForm.controls).forEach(field => {
+      const control = this.userForm.get(field);
+      if (control && control.invalid) {
+        console.log(`Campo inválido: ${field}`, control.errors);
       }
     });
   }
@@ -88,6 +112,39 @@ export class UserFormComponent implements OnInit {
       }
     });
   }
+  loadAthleteForm(id: number): void {
+    this.athleteService.getAthlete(id).subscribe({
+      next: (athlete) => {
+        this.userForm.patchValue(athlete);
+      },
+      error: (err) => {
+        this.error = 'Error al cargar el athlete';
+        console.error(err);
+      }
+    });
+  }
+  /* loadUser(id: number): void {
+    this.userService.getUser(id).subscribe({
+      next: (user) => {
+        this.userForm.patchValue(user);
+      },
+      error: (err) => {
+        this.error = 'Error al cargar el usuario';
+        console.error(err);
+      }
+    });
+  }
+  loadUser(id: number): void {
+    this.userService.getUser(id).subscribe({
+      next: (user) => {
+        this.userForm.patchValue(user);
+      },
+      error: (err) => {
+        this.error = 'Error al cargar el usuario';
+        console.error(err);
+      }
+    });
+  } */
   loadClubs(): void {
     this.clubService.getClubs().subscribe({
       next: (clubs) => {
@@ -116,15 +173,19 @@ export class UserFormComponent implements OnInit {
       return;
     }
 
-    const user: User = this.userForm.value;
 
-    // Asignar valores internos que el usuario no manipula
-    user.isActive = true;
-    user.lastLogin = new Date();
-
+    const baseUserData: User = {
+      email: this.userForm.get('email')?.value,
+      password: this.userForm.get('password')?.value,
+      phoneNumber: this.userForm.get('phoneNumber')?.value,
+      userType: this.userForm.get('userType')?.value,
+      isActive: true,
+      lastLogin: this.formatDateForMySQL(new Date()),
+    };
+    //ESTA PARTE HAY QUE VER SI ES NECESARIA O NO
     // Guardar los datos básicos de User
-    if (this.isEditMode && this.userId !== null) {
-      this.userService.updateUser(this.userId, user).subscribe({
+    if (this.isEditMode && this.id !== null) {
+      this.userService.updateUser(this.id, baseUserData).subscribe({
         next: () => {
           this.saveSubClassData();
           this.router.navigate(['/users']);
@@ -135,7 +196,7 @@ export class UserFormComponent implements OnInit {
         }
       });
     } else {
-      this.userService.createUser(user).subscribe({
+      this.userService.createUser(baseUserData).subscribe({
         next: () => {
           this.saveSubClassData();
           this.router.navigate(['/users']);
@@ -147,10 +208,13 @@ export class UserFormComponent implements OnInit {
       });
     }
   }
+  formatDateForMySQL = (date: Date) => {
+    return new Date(date).toISOString().slice(0, 19).replace('T', ' ');
+  };
 
   // Guardar los datos específicos de la subclase según el tipo de usuario
   saveSubClassData(): void {
-    if (this.isAthlete()) {
+    if (this.isAthlete() ){
       const athleteDetails = this.userForm.get('athleteDetails')?.value;
       this.athleteService.createAthlete(athleteDetails).subscribe({
         next: () => console.log('Datos de Athlete guardados'),

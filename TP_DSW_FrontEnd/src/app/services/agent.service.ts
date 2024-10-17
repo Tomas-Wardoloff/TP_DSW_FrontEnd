@@ -7,7 +7,7 @@ import { Agent } from '../models/agent.model'; // Importa tu modelo
   providedIn: 'root'
 })
 export class AgentService {
-  private apiUrl = 'http://localhost:3000/api/agent'; // Cambia esto a tu endpoint
+  private apiUrl = 'http://localhost:3000/api/agents'; // Cambia esto a tu endpoint
 
   constructor(private http: HttpClient) {}
   getAgent(id: number): Observable<Agent> {
