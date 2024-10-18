@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
-import { AthleteService } from '../../../services/athlete.service.ts';
+import { AthleteService } from '../../../services/athlete.service';
 import { ClubService } from '../../../services/club.service';
 import { AgentService } from '../../../services/agent.service';
 import { Router, ActivatedRoute } from '@angular/router';

@@ -2,6 +2,7 @@
 import { User } from './user.model';
 
 export interface Athlete extends User {
+  id?: number;
   firstName: string;
   lastName: string;
   birthDate: Date;
@@ -9,5 +10,5 @@ export interface Athlete extends User {
   sport: string;
   position: string;
   isSigned: Boolean;
-  userId: number;
+  user: number;
 }

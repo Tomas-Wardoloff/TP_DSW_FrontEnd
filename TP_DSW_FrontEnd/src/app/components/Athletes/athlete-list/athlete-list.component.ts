@@ -1,7 +1,9 @@
 // src/app/components/athletes/athlete-list/athlete-list.component.ts
 import { Component, OnInit } from '@angular/core';
-import { AthleteService } from '../../../services/athlete.service.ts';
-import { Athlete } from '../../../models/athelete.model.js';
+import { AthleteService } from '../../../services/athlete.service';
+import { UserService} from '../../../services/user.service';
+
+import { Athlete } from '../../../models/athelete.model';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,7 +16,7 @@ export class AthleteListComponent implements OnInit {
   isLoading: boolean = true;
   error: string = '';
 
-  constructor(private athleteService: AthleteService, private router: Router) {}
+  constructor(private athleteService: AthleteService, private router: Router, private userService: UserService) {}
 
   ngOnInit(): void {
     this.fetchAthletes();
@@ -24,6 +26,7 @@ export class AthleteListComponent implements OnInit {
     this.athleteService.getAthletes().subscribe({
       next: (data) => {
         this.athletes = data;
+        console.log(data);
         this.isLoading = false;
       },
       error: (err) => {
@@ -34,10 +37,23 @@ export class AthleteListComponent implements OnInit {
     });
   }
 
-  deleteAthlete(id: number): void {
-    if (confirm('¿Estás seguro de eliminar este atleta?')) {
+  deleteUser(id: number,userId:number): void {
+    if (confirm('Al elimiar el Atleta tambien eliminara al usuario\n¿Estás seguro de eliminar este usuario?')) {
+      console.log(id)
       this.athleteService.deleteAthlete(id).subscribe({
-        next: () => this.fetchAthletes(),
+        next: () => {
+          this.userService.deleteUser(userId).subscribe({
+            next: () => {
+              console.log('I WAS FUCKING HERE (DELETE USER)');
+
+            },
+            error: (err) => {
+              this.error = 'Error al eliminar el usuario';
+              console.error(err);
+            }
+          });
+          console.log('I WAS FUCKING HERE');
+        },
         error: (err) => {
           this.error = 'Error al eliminar el atleta';
           console.error(err);
@@ -46,7 +62,10 @@ export class AthleteListComponent implements OnInit {
     }
   }
 
-  editAthlete(id: number): void {
-    this.router.navigate(['/athletes/edit', id]);
+  editUser(id: number): void {
+    this.router.navigate(['/users/edit', id]);
+  }
+  navigateToNewUser(): void {
+    this.router.navigate(['/users/new']); // Navega al formulario para crear un nuevo usuario
   }
 }

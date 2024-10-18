@@ -2,9 +2,9 @@
 import { User } from './user.model';
 
 export interface Agent extends User {
+  id?: number;
   firstName: string;
   lastName: string;
-  id: number;
   clubId?: number;
   userId: number;
 

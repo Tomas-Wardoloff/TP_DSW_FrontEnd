@@ -8,6 +8,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserFormComponent } from './components/Users/user-form/user-form.component'; // Ajusta la ruta según tu estructura
 import { UserListComponent } from './components/Users/user-list/user-list.component';
 import { RouterModule } from '@angular/router'; // Importa RouterModule
+import { AthleteListComponent } from './components/Athletes/athlete-list/athlete-list.component';
+import { AgentListComponent } from './components/Agents/agent-list/agent-list.component';
+import { ClubListComponent } from './components/clubs/club-list/club-list.component';
 
 
 
@@ -15,7 +18,10 @@ import { RouterModule } from '@angular/router'; // Importa RouterModule
   declarations: [
     //LoginComponent,
     UserFormComponent,
-    UserListComponent
+    UserListComponent,
+    AthleteListComponent,
+    AgentListComponent,
+    ClubListComponent
 
   ],
   imports: [
