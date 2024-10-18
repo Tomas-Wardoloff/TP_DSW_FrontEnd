@@ -2,7 +2,6 @@
 import { User } from './user.model';
 
 export interface Athlete extends User {
-  athleteId: number;
   firstName: string;
   lastName: string;
   birthDate: Date;

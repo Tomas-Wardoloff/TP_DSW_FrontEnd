@@ -40,27 +40,24 @@ export class UserFormComponent implements OnInit {
       userType: [ Validators.required], // Campo para seleccionar el tipo de usuario
       // Atributos dinámicos de subclases
       athleteDetails: this.fb.group({
-        firstname: ['', Validators.required, ],
-        lastname: ['', Validators.required, ],
+        firstName: ['', Validators.required, ],
+        lastName: ['', Validators.required, ],
         nationality: ['', Validators.required, ],
         sport: ['', Validators.required, ],
         position: ['', Validators.required, ],
         isSigned: [false, Validators.required, ],//Bool
         birthDate: ['', Validators.required, ],//Date
-        //userId: ['', Validators.required, ],
 
       }),
       /* clubDetails: this.fb.group({
         name: ['', Validators.required, ],
         address: ['', Validators.required, ],
         openingDate: ['', Validators.required, ],//Date,
-        //userId: ['', Validators.required, ]
       }),
       agentDetails: this.fb.group({
         firstName: ['', Validators.required, ],
         lastName: ['', Validators.required, ],
-        //userId: ['', Validators.required, ],
-        clubId: ['', Validators.required, ],
+        //clubId: ['', Validators.required, ],
       }) */
     });
 
@@ -68,29 +65,40 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.userForm.valueChanges.subscribe(() => {
-      this.checkFormValidity();
+      //testeo
+      //this.checkFormValidity();
     });
   
 
-  // Monitorear los cambios de valor en todo el formulario
-    this.userForm.valueChanges.subscribe(value => {
-    console.log('Estado del formulario:', this.userForm.status);  // INVALID o VALID
-    console.log('Valores actuales del formulario:', value);})  // Valore
+    //testeo
+    //this.userForm.valueChanges.subscribe(value => {
+      //console.log('Estado del formulario:', this.userForm.status);  // INVALID o VALID
+      //console.log('Valores actuales del formulario:', value);
+    //})  
     this.route.paramMap.subscribe(params => {
-      const idParam = params.get('id');
+    const idParam = params.get('id');
 
-      if (idParam) {
+    if (idParam) {
         this.isEditMode = true;
         this.id = +idParam;
         this.loadUser(this.id);
-        this.loadAthleteForm(this.id);
+        if (this.isAthlete() ){
+          this.loadAthleteForm(this.id);
+        }
+        if (this.isAthlete() ){
+          //this.loadClubForm(this.id);
+        }
+        if (this.isAthlete() ){
+          //this.loadAgentForm(this.id);
+        }
         this.loadClubs();
 
 
       }
     });
   }
-  checkFormValidity(): void {
+  //testeo
+  /* checkFormValidity(): void {
     // Iterar sobre cada control en el formulario
     Object.keys(this.userForm.controls).forEach(field => {
       const control = this.userForm.get(field);
@@ -98,7 +106,7 @@ export class UserFormComponent implements OnInit {
         console.log(`Campo inválido: ${field}`, control.errors);
       }
     });
-  }
+  } */
 
 
   loadUser(id: number): void {
@@ -112,6 +120,8 @@ export class UserFormComponent implements OnInit {
       }
     });
   }
+  //esto todavia no funciona, se supone que es para los update que ya 
+  // aparezcan los datos cargados en athlete details
   loadAthleteForm(id: number): void {
     this.athleteService.getAthlete(id).subscribe({
       next: (athlete) => {
@@ -123,10 +133,11 @@ export class UserFormComponent implements OnInit {
       }
     });
   }
-  /* loadUser(id: number): void {
-    this.userService.getUser(id).subscribe({
-      next: (user) => {
-        this.userForm.patchValue(user);
+  /* 
+  loadClubForm(id: number): void {
+    this.clubService.getClub(id).subscribe({
+      next: (club) => {
+        this.userForm.patchValue(club);
       },
       error: (err) => {
         this.error = 'Error al cargar el usuario';
@@ -134,10 +145,10 @@ export class UserFormComponent implements OnInit {
       }
     });
   }
-  loadUser(id: number): void {
-    this.userService.getUser(id).subscribe({
-      next: (user) => {
-        this.userForm.patchValue(user);
+  loadAgentForm(id: number): void {
+    this.agentService.getAgent(id).subscribe({
+      next: (agent) => {
+        this.userForm.patchValue(agent);
       },
       error: (err) => {
         this.error = 'Error al cargar el usuario';
@@ -182,13 +193,16 @@ export class UserFormComponent implements OnInit {
       isActive: true,
       lastLogin: this.formatDateForMySQL(new Date()),
     };
-    //ESTA PARTE HAY QUE VER SI ES NECESARIA O NO
     // Guardar los datos básicos de User
     if (this.isEditMode && this.id !== null) {
       this.userService.updateUser(this.id, baseUserData).subscribe({
         next: () => {
-          this.saveSubClassData();
-          this.router.navigate(['/users']);
+          // Verifica si el ID está definido antes de llamar a saveSubClassData
+          if (this?.id !== null) {
+           this.saveSubClassData(this?.id);  // Llama a saveSubClassData solo si el ID no es undefined
+          } else {
+            console.error('Error: ID del usuario no está definido');
+          }
         },
         error: (err) => {
           this.error = 'Error al actualizar el usuario';
@@ -197,9 +211,15 @@ export class UserFormComponent implements OnInit {
       });
     } else {
       this.userService.createUser(baseUserData).subscribe({
-        next: () => {
-          this.saveSubClassData();
-          this.router.navigate(['/users']);
+        next: (user) => {
+        const newUserId = user?.id;
+
+        // Verifica si el ID está definido antes de llamar a saveSubClassData
+        if (newUserId !== undefined) {
+          this.saveSubClassData(newUserId);  // Llama a saveSubClassData solo si el ID no es undefined
+        } else {
+          console.error('Error: ID del usuario no está definido');
+        }
         },
         error: (err) => {
           this.error = 'Error al crear el usuario';
@@ -213,25 +233,108 @@ export class UserFormComponent implements OnInit {
   };
 
   // Guardar los datos específicos de la subclase según el tipo de usuario
-  saveSubClassData(): void {
-    if (this.isAthlete() ){
+  saveSubClassData(userId: number): void {
+    /* if (this.isAthlete() ){
       const athleteDetails = this.userForm.get('athleteDetails')?.value;
       this.athleteService.createAthlete(athleteDetails).subscribe({
         next: () => console.log('Datos de Athlete guardados'),
         error: (err) => console.error('Error al guardar Athlete', err)
-      });
-    } else if (this.isClub()) {
-      const clubDetails = this.userForm.get('clubDetails')?.value;
-      this.clubService.createClub(clubDetails).subscribe({
-        next: () => console.log('Datos de Club guardados'),
-        error: (err) => console.error('Error al guardar Club', err)
-      });
-    } else if (this.isAgent()) {
-      const agentDetails = this.userForm.get('agentDetails')?.value;
-      this.agentService.createAgent(agentDetails).subscribe({
-        next: () => console.log('Datos de Agent guardados'),
-        error: (err) => console.error('Error al guardar Agent', err)
-      });
-    }
+      }); 
+      } else if (this.isClub()) {
+        const clubDetails = this.userForm.get('clubDetails')?.value;
+        this.clubService.createClub(clubDetails).subscribe({
+          next: () => console.log('Datos de Club guardados'),
+          error: (err) => console.error('Error al guardar Club', err)
+        });
+      } else if (this.isAgent()) {
+        const agentDetails = this.userForm.get('agentDetails')?.value;
+        this.agentService.createAgent(agentDetails).subscribe({
+          next: () => console.log('Datos de Agent guardados'),
+          error: (err) => console.error('Error al guardar Agent', err)
+        });
+      }*/
+      if (this.isAthlete() && this.isEditMode && this.id !== null) {
+        const athleteDetails = {...this.userForm.get('athleteDetails')?.value, userId };
+        //console.log(athleteDetails);
+
+        
+        this.athleteService.updateAthlete(userId, athleteDetails).subscribe({
+          next: () => {
+            console.log('Se ha actualizado el atleta con EXITO')
+            this.router.navigate(['/users']);
+          },
+          error: (err) => {
+            this.error = 'Error al actualizar el atleta';
+            console.error(err);
+          }
+        });
+      }
+      if (this.isAthlete() && !(this.isEditMode) && this.id == null){
+        const athleteDetails = {...this.userForm.get('athleteDetails')?.value,userId};
+        this.athleteService.createAthlete(athleteDetails).subscribe({
+          next: () => {
+            console.log('Se ha actualizado el atleta con EXITO')
+            this.router.navigate(['/users']);
+          },
+          error: (err) => {
+            this.error = 'Error al crear el atleta';
+            console.error(err);
+          }
+        });
+      }
+      if (this.isAgent() && this.isEditMode && this.id !== null) {
+        const agentDetails = {...this.userForm.get('agentDetails')?.value,userId};
+        
+        this.agentService.updateAgent(this.id, agentDetails).subscribe({
+          next: () => {
+            console.log('Se ha actualizado el agente con EXITO')
+            this.router.navigate(['/users']);
+          },
+          error: (err) => {
+            this.error = 'Error al actualizar el agente';
+            console.error(err);
+          }
+        });
+      }
+      if (this.isAgent() && (!(this.isEditMode) || this.id !== null)){
+        const agentDetails = {...this.userForm.get('agentDetails')?.value,userId};
+        this.agentService.createAgent(agentDetails).subscribe({
+          next: () => {
+            console.log('Se ha actualizado el agente con EXITO')
+            this.router.navigate(['/users']);
+          },
+          error: (err) => {
+            this.error = 'Error al crear el atleta';
+            console.error(err);
+          }
+        });
+      }
+      if (this.isClub() && this.isEditMode && this.id !== null) {
+        const clubDetails = {...this.userForm.get('clubDetails')?.value,userId};
+        
+        this.clubService.updateClub(this.id, clubDetails).subscribe({
+          next: () => {
+            console.log('Se ha actualizado el club con EXITO')
+            this.router.navigate(['/users']);
+          },
+          error: (err) => {
+            this.error = 'Error al actualizar el club';
+            console.error(err);
+          }
+        });
+      }
+      if (this.isClub() && (!(this.isEditMode) || this.id !== null)){
+        const clubDetails = {...this.userForm.get('clubDetails')?.value,userId};
+        this.clubService.createClub(clubDetails).subscribe({
+          next: () => {
+            console.log('Se ha actualizado el club con EXITO')
+            this.router.navigate(['/users']);
+          },
+          error: (err) => {
+            this.error = 'Error al crear el club';
+            console.error(err);
+          }
+        });
+      }
   }
 }

@@ -42,16 +42,16 @@
   <div *ngIf="isAthlete()">
     <h3>Athlete Details</h3>
     <div formGroupName="athleteDetails">
-      <label for="firstname">First Name:</label>
-      <input id="firstname" formControlName="firstname" required>
-      <div *ngIf="userForm.get('athleteDetails.firstname')!.invalid && userForm.get('athleteDetails.firstname')!.touched">
-        <small *ngIf="userForm.get('athleteDetails.firstname')!.errors?.['required']">First Name is required.</small>
+      <label for="firstName">First Name:</label>
+      <input id="firstName" formControlName="firstName" required>
+      <div *ngIf="userForm.get('athleteDetails.firstName')!.invalid && userForm.get('athleteDetails.firstName')!.touched">
+        <small *ngIf="userForm.get('athleteDetails.firstName')!.errors?.['required']">First Name is required.</small>
       </div>
 
-      <label for="lastname">Last Name:</label>
-      <input id="lastname" formControlName="lastname" required>
-      <div *ngIf="userForm.get('athleteDetails.lastname')!.invalid && userForm.get('athleteDetails.lastname')!.touched">
-        <small *ngIf="userForm.get('athleteDetails.lastname')!.errors?.['required']">Last Name is required.</small>
+      <label for="lastName">Last Name:</label>
+      <input id="lastName" formControlName="lastName" required>
+      <div *ngIf="userForm.get('athleteDetails.lastName')!.invalid && userForm.get('athleteDetails.lastName')!.touched">
+        <small *ngIf="userForm.get('athleteDetails.lastName')!.errors?.['required']">Last Name is required.</small>
       </div>
       <label for="nationality">Nationality:</label>
       <input id="nationality" formControlName="nationality" required>
