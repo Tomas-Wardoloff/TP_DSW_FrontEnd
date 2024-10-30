@@ -6,5 +6,5 @@ export interface Club extends User {
   name: string;
   adress: string;
   openingDate: Date;
-  userId: number;
+  user: number;
 }

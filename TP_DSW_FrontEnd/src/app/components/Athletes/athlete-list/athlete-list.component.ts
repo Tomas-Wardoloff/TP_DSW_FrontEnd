@@ -44,15 +44,12 @@ export class AthleteListComponent implements OnInit {
         next: () => {
           this.userService.deleteUser(userId).subscribe({
             next: () => {
-              console.log('I WAS FUCKING HERE (DELETE USER)');
-
             },
             error: (err) => {
               this.error = 'Error al eliminar el usuario';
               console.error(err);
             }
           });
-          console.log('I WAS FUCKING HERE');
         },
         error: (err) => {
           this.error = 'Error al eliminar el atleta';

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
 import { AthleteService } from '../../../services/athlete.service';
@@ -30,51 +30,60 @@ export class UserFormComponent implements OnInit {
     private clubService: ClubService,       // Servicio para Club
     private agentService: AgentService,     // Servicio para Agent
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef // Inyecta ChangeDetectorRef
+
+
   ) {
     // Formulario base
     this.userForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       phoneNumber: ['', [Validators.required, Validators.minLength(9)]],
-      userType: [ Validators.required], // Campo para seleccionar el tipo de usuario
+      userType: [ '',Validators.required],
       // Atributos dinámicos de subclases
       athleteDetails: this.fb.group({
-        firstName: ['', Validators.required, ],
-        lastName: ['', Validators.required, ],
-        nationality: ['', Validators.required, ],
-        sport: ['', Validators.required, ],
-        position: ['', Validators.required, ],
-        isSigned: [false, Validators.required, ],//Bool
-        birthDate: ['', Validators.required, ],//Date
+        firstName: [' '],
+        lastName: [''],
+        nationality: [''],
+        sport: [''],
+        position: [''],
+        isSigned: [false],//Bool
+        birthDate: [''],//Date
 
       }),
-      /* clubDetails: this.fb.group({
-        name: ['', Validators.required, ],
-        address: ['', Validators.required, ],
-        openingDate: ['', Validators.required, ],//Date,
+      clubDetails: this.fb.group({
+        name: ['' ],
+        address: ['' ],
+        openingDate: [''],//Date,
       }),
       agentDetails: this.fb.group({
-        firstName: ['', Validators.required, ],
-        lastName: ['', Validators.required, ],
-        //clubId: ['', Validators.required, ],
-      }) */
+        firstName: [''],
+        lastName: [''],
+        club: [''],
+      }) 
     });
+
+
 
   }
 
   ngOnInit(): void {
-    this.userForm.valueChanges.subscribe(() => {
+    this.userForm.get('userType')?.valueChanges.subscribe(() => {
+      this.updateValidations();
+      this.cdr.detectChanges(); // Agrega esto para evitar el error
+      this.loadClubs();
+      
       //testeo
-      //this.checkFormValidity();
+      this.checkFormValidity();
     });
   
 
     //testeo
-    //this.userForm.valueChanges.subscribe(value => {
-      //console.log('Estado del formulario:', this.userForm.status);  // INVALID o VALID
-      //console.log('Valores actuales del formulario:', value);
-    //})  
+    this.userForm.valueChanges.subscribe(value => {
+      console.log('Estado del formulario:', this.userForm.status);  // INVALID o VALID
+      console.log('Valores actuales del formulario:', value);
+    })  
     this.route.paramMap.subscribe(params => {
     const idParam = params.get('id');
 
@@ -85,20 +94,17 @@ export class UserFormComponent implements OnInit {
         if (this.isAthlete() ){
           this.loadAthleteForm(this.id);
         }
-        if (this.isAthlete() ){
+        if (this.isClub() ){
           //this.loadClubForm(this.id);
         }
-        if (this.isAthlete() ){
+        if (this.isAgent() ){
           //this.loadAgentForm(this.id);
         }
-        this.loadClubs();
-
-
       }
     });
   }
   //testeo
-  /* checkFormValidity(): void {
+  checkFormValidity(): void {
     // Iterar sobre cada control en el formulario
     Object.keys(this.userForm.controls).forEach(field => {
       const control = this.userForm.get(field);
@@ -106,8 +112,7 @@ export class UserFormComponent implements OnInit {
         console.log(`Campo inválido: ${field}`, control.errors);
       }
     });
-  } */
-
+  } 
 
   loadUser(id: number): void {
     this.userService.getUser(id).subscribe({
@@ -120,7 +125,7 @@ export class UserFormComponent implements OnInit {
       }
     });
   }
-  //esto todavia no funciona, se supone que es para los update que ya 
+  //esto todavia no funciona, es para los update para que ya 
   // aparezcan los datos cargados en athlete details
   loadAthleteForm(id: number): void {
     this.athleteService.getAthlete(id).subscribe({
@@ -166,6 +171,43 @@ export class UserFormComponent implements OnInit {
       }
     });
   }
+
+
+  updateValidations() : void {
+    const athleteControls = this.userForm.get('athleteDetails') as FormGroup;
+    const clubControls = this.userForm.get('clubDetails') as FormGroup;
+    const agentControls = this.userForm.get('agentDetails') as FormGroup;
+  
+    // Limpia las validaciones de todos los grupos primero
+    Object.values(athleteControls.controls).forEach(control => control.clearValidators());
+    Object.values(clubControls.controls).forEach(control => control.clearValidators());
+    Object.values(agentControls.controls).forEach(control => control.clearValidators());
+  
+    // Añade validaciones solo a los campos visibles según el tipo de usuario
+    if (this.isAthlete()) {
+      athleteControls.get('firstName')?.setValidators(Validators.required);
+      athleteControls.get('lastName')?.setValidators(Validators.required);
+      athleteControls.get('sport')?.setValidators(Validators.required);
+      athleteControls.get('position')?.setValidators(Validators.required);
+      athleteControls.get('birthDate')?.setValidators(Validators.required);
+    }
+    if (this.isClub()) {
+      clubControls.get('name')?.setValidators(Validators.required);
+      clubControls.get('address')?.setValidators(Validators.required);
+      clubControls.get('openingDate')?.setValidators(Validators.required);
+    }
+    if (this.isAgent()) {
+      agentControls.get('firstName')?.setValidators(Validators.required);
+      agentControls.get('lastName')?.setValidators(Validators.required);
+      agentControls.get('club')?.setValidators(Validators.required);
+    }
+  
+    // Actualiza el estado del formulario después de cambiar validaciones
+    athleteControls.updateValueAndValidity();
+    clubControls.updateValueAndValidity();
+    agentControls.updateValueAndValidity();
+  }
+  
   // Mostrar campos dinámicos según el tipo de usuario seleccionado
   isAthlete(): boolean {
     return this.userForm.get('userType')?.value === UserType.ATHLETE;
@@ -234,25 +276,6 @@ export class UserFormComponent implements OnInit {
 
   // Guardar los datos específicos de la subclase según el tipo de usuario
   saveSubClassData(userId: number): void {
-    /* if (this.isAthlete() ){
-      const athleteDetails = this.userForm.get('athleteDetails')?.value;
-      this.athleteService.createAthlete(athleteDetails).subscribe({
-        next: () => console.log('Datos de Athlete guardados'),
-        error: (err) => console.error('Error al guardar Athlete', err)
-      }); 
-      } else if (this.isClub()) {
-        const clubDetails = this.userForm.get('clubDetails')?.value;
-        this.clubService.createClub(clubDetails).subscribe({
-          next: () => console.log('Datos de Club guardados'),
-          error: (err) => console.error('Error al guardar Club', err)
-        });
-      } else if (this.isAgent()) {
-        const agentDetails = this.userForm.get('agentDetails')?.value;
-        this.agentService.createAgent(agentDetails).subscribe({
-          next: () => console.log('Datos de Agent guardados'),
-          error: (err) => console.error('Error al guardar Agent', err)
-        });
-      }*/
       if (this.isAthlete() && this.isEditMode && this.id !== null) {
         const athleteDetails = {...this.userForm.get('athleteDetails')?.value, userId };
         //console.log(athleteDetails);
@@ -261,7 +284,7 @@ export class UserFormComponent implements OnInit {
         this.athleteService.updateAthlete(userId, athleteDetails).subscribe({
           next: () => {
             console.log('Se ha actualizado el atleta con EXITO')
-            this.router.navigate(['/users']);
+            this.router.navigate(['/athletes']);
           },
           error: (err) => {
             this.error = 'Error al actualizar el atleta';
@@ -273,8 +296,8 @@ export class UserFormComponent implements OnInit {
         const athleteDetails = {...this.userForm.get('athleteDetails')?.value,userId};
         this.athleteService.createAthlete(athleteDetails).subscribe({
           next: () => {
-            console.log('Se ha actualizado el atleta con EXITO')
-            this.router.navigate(['/users']);
+            console.log('Se ha dado de alta el atleta con EXITO')
+            this.router.navigate(['/athletes']);
           },
           error: (err) => {
             this.error = 'Error al crear el atleta';
@@ -288,7 +311,7 @@ export class UserFormComponent implements OnInit {
         this.agentService.updateAgent(this.id, agentDetails).subscribe({
           next: () => {
             console.log('Se ha actualizado el agente con EXITO')
-            this.router.navigate(['/users']);
+            this.router.navigate(['/agents']);
           },
           error: (err) => {
             this.error = 'Error al actualizar el agente';
@@ -300,8 +323,8 @@ export class UserFormComponent implements OnInit {
         const agentDetails = {...this.userForm.get('agentDetails')?.value,userId};
         this.agentService.createAgent(agentDetails).subscribe({
           next: () => {
-            console.log('Se ha actualizado el agente con EXITO')
-            this.router.navigate(['/users']);
+            console.log('Se ha dado de alta el agente con EXITO')
+            this.router.navigate(['/agents']);
           },
           error: (err) => {
             this.error = 'Error al crear el atleta';
@@ -315,7 +338,7 @@ export class UserFormComponent implements OnInit {
         this.clubService.updateClub(this.id, clubDetails).subscribe({
           next: () => {
             console.log('Se ha actualizado el club con EXITO')
-            this.router.navigate(['/users']);
+            this.router.navigate(['/clubs']);
           },
           error: (err) => {
             this.error = 'Error al actualizar el club';
@@ -327,8 +350,8 @@ export class UserFormComponent implements OnInit {
         const clubDetails = {...this.userForm.get('clubDetails')?.value,userId};
         this.clubService.createClub(clubDetails).subscribe({
           next: () => {
-            console.log('Se ha actualizado el club con EXITO')
-            this.router.navigate(['/users']);
+            console.log('Se ha dado de alta el club con EXITO')
+            this.router.navigate(['/clubs']);
           },
           error: (err) => {
             this.error = 'Error al crear el club';

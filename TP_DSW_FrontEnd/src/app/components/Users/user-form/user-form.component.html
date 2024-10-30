@@ -125,8 +125,8 @@
         <small *ngIf="userForm.get('agentDetails.lastName')!.errors?.['required']">Last Name is required.</small>
       </div>
 
-      <label for="clubId">Select Club:</label>
-      <select id="clubId" formControlName="clubId" required>
+      <label for="club">Select Club:</label>
+      <select id="club" formControlName="club" required>
         <option *ngFor="let club of clubs" [value]="club.id">{{ club.name }}</option>
       </select>
     </div>

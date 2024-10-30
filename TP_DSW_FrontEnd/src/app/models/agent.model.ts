@@ -5,7 +5,7 @@ export interface Agent extends User {
   id?: number;
   firstName: string;
   lastName: string;
-  clubId?: number;
-  userId: number;
+  club: number;
+  user: number;
 
 }
