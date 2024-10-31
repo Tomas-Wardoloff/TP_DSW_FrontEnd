@@ -2,21 +2,30 @@
 import { Component, OnInit } from '@angular/core';
 import { AgentService } from '../../../services/agent.service';
 import { UserService} from '../../../services/user.service';
-
 import { Agent } from '../../../models/agent.model';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute,RouterModule} from '@angular/router';
+import { CommonModule } from '@angular/common'; 
+
 
 @Component({
   selector: 'app-agent-list',
   templateUrl: './agent-list.component.html',
-  styleUrls: ['./agent-list.component.css']
+  styleUrls: ['./agent-list.component.css'],
+  standalone: true,
+  imports: [RouterModule,CommonModule]
 })
 export class AgentListComponent implements OnInit {
   agents: Agent[] = [];
   isLoading: boolean = true;
   error: string = '';
 
-  constructor(private agentService: AgentService,private userService: UserService, private router: Router) {}
+  constructor(
+    private agentService: AgentService,
+    private userService: UserService, 
+    private router: Router,
+    private route: ActivatedRoute,
+
+  ) {}
 
   ngOnInit(): void {
     this.fetchAgents();

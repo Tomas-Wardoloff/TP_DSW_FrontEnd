@@ -1,24 +1,24 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
+import { RouterModule } from '@angular/router'; 
 
 @Component({
-  standalone: true,  // Este componente es standalone
+  standalone: true,  
   selector: 'app-homepage',
-  templateUrl: './homepage.component.html',  // Asegúrate de tener este archivo
-  styleUrls: ['./homepage.component.css'],    // Asegúrate de tener este archivo
-  imports: [CommonModule],  // Solo se importa CommonModule para directivas comunes
+  templateUrl: './homepage.component.html',  
+  styleUrls: ['./homepage.component.css'],    
+  imports: [CommonModule,RouterModule], 
 })
 export class HomepageComponent {
-  // Aquí puedes definir propiedades y métodos específicos de tu componente
   title: string = 'Bienvenido a la Página de Inicio';
-
-  constructor() {
-    // Puedes inicializar cualquier dato aquí
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {
   }
 
-  // Ejemplo de un método
   onButtonClick() {
-    console.log('Botón de la página de inicio clickeado!');
   }
 }
 

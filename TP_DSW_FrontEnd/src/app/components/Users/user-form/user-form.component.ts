@@ -1,16 +1,21 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
 import { AthleteService } from '../../../services/athlete.service';
 import { ClubService } from '../../../services/club.service';
 import { AgentService } from '../../../services/agent.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { User, UserType } from '../../../models/user.model';
+import { CommonModule } from '@angular/common'; 
+import { RouterModule } from '@angular/router'; 
+import { Router, ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
-  styleUrls: ['./user-form.component.css']
+  styleUrls: ['./user-form.component.css'],
+  standalone: true,
+  imports: [ReactiveFormsModule, CommonModule,RouterModule], 
 })
 export class UserFormComponent implements OnInit {
   userForm: FormGroup;

@@ -7,8 +7,6 @@
     "strict": true,
     "baseUrl": "src",
     "paths": {
-      "@services/*": ["app/services/*"],
-      "@pages/*": ["app/pages/*"]
 
     },
     "noImplicitOverride": true,

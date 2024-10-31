@@ -2,21 +2,30 @@
 import { Component, OnInit } from '@angular/core';
 import { AthleteService } from '../../../services/athlete.service';
 import { UserService} from '../../../services/user.service';
-
 import { Athlete } from '../../../models/athelete.model';
-import { Router } from '@angular/router';
+import { Router,RouterModule,ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common'; 
+
 
 @Component({
   selector: 'app-athlete-list',
   templateUrl: './athlete-list.component.html',
-  styleUrls: ['./athlete-list.component.css']
+  styleUrls: ['./athlete-list.component.css'],
+  standalone: true,
+  imports: [RouterModule,CommonModule]
 })
 export class AthleteListComponent implements OnInit {
   athletes: Athlete[] = [];
   isLoading: boolean = true;
   error: string = '';
 
-  constructor(private athleteService: AthleteService, private router: Router, private userService: UserService) {}
+  constructor(
+    private athleteService: AthleteService, 
+    private router: Router, 
+    private userService: UserService,
+    private route: ActivatedRoute,
+
+  ) {}
 
   ngOnInit(): void {
     this.fetchAthletes();

@@ -2,21 +2,28 @@
 import { Component, OnInit } from '@angular/core';
 import { ClubService } from '../../../services/club.service';
 import { UserService} from '../../../services/user.service';
-
+import { Router, ActivatedRoute, RouterModule} from '@angular/router';
+import { CommonModule } from '@angular/common'; 
 import { Club } from '../../../models/club.model';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-club-list',
   templateUrl: './club-list.component.html',
-  styleUrls: ['./club-list.component.css']
+  styleUrls: ['./club-list.component.css'],
+  imports: [RouterModule,CommonModule],
+  standalone: true
 })
 export class ClubListComponent implements OnInit {
   clubs: Club[] = [];
   isLoading: boolean = true;
   error: string = '';
 
-  constructor(private clubService: ClubService,private userService: UserService, private router: Router) {}
+  constructor(
+    private clubService: ClubService,
+    private userService: UserService, 
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     this.fetchClubs();
