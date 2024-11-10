@@ -1,0 +1,140 @@
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="email">Email:</label>
+    <input id="email" formControlName="email" required>
+    <div *ngIf="userForm.get('email')!.invalid && userForm.get('email')!.touched">
+      <span *ngIf="userForm.get('email')!.errors?.['required']">El email es requerido.</span>
+      <span *ngIf="userForm.get('email')!.errors?.['email']">Formato de email inválido.</span>
+    </div>
+    
+  </div>
+
+  <div>
+    <label for="password">Password:</label>
+    <input id="password" type="password" formControlName="password" required>
+    <div *ngIf="userForm.get('password') && userForm.get('password')!.invalid && userForm.get('password')!.touched">
+      <small *ngIf="userForm.get('password')!.errors?.['required']">Password is required.</small>
+      <small *ngIf="userForm.get('password')!.errors?.['minlength']">Password must be at least 8 characters long.</small>
+    </div>
+  </div>
+
+  <div>
+    <label for="phoneNumber">Phone Number:</label>
+    <input id="phoneNumber" formControlName="phoneNumber" required>
+    <div *ngIf="userForm.get('phoneNumber')!.invalid && userForm.get('phoneNumber')!.touched">
+      <small *ngIf="userForm.get('phoneNumber')!.errors?.['required']">Phone Number is required.</small>
+      <small *ngIf="userForm.get('phoneNumber')!.errors?.['minlength']">Phone Number must be at least 9 characters long.</small>
+    </div>
+  </div>
+ 
+  
+  <div>
+    <label for="userType">User Type:</label>
+    <select id="userType" formControlName="userType" (change)="userForm.get('userType')!.markAsDirty()" required>
+      <option *ngFor="let type of userTypes" [value]="type">{{ type }}</option>
+    </select>
+    <div *ngIf="userForm.get('userType')!.invalid && userForm.get('userType')!.touched">
+      <small *ngIf="userForm.get('userType')!.errors?.['required']">User Type is required.</small>
+    </div>
+  </div>
+
+  <!-- Athlete Details -->
+  <div *ngIf="isAthlete()">
+    <h3>Athlete Details</h3>
+    <div formGroupName="athleteDetails">
+      <label for="firstName">First Name:</label>
+      <input id="firstName" formControlName="firstName" required>
+      <div *ngIf="userForm.get('athleteDetails.firstName')!.invalid && userForm.get('athleteDetails.firstName')!.touched">
+        <small *ngIf="userForm.get('athleteDetails.firstName')!.errors?.['required']">First Name is required.</small>
+      </div>
+
+      <label for="lastName">Last Name:</label>
+      <input id="lastName" formControlName="lastName" required>
+      <div *ngIf="userForm.get('athleteDetails.lastName')!.invalid && userForm.get('athleteDetails.lastName')!.touched">
+        <small *ngIf="userForm.get('athleteDetails.lastName')!.errors?.['required']">Last Name is required.</small>
+      </div>
+      <label for="nationality">Nationality:</label>
+      <input id="nationality" formControlName="nationality" required>
+      <div *ngIf="userForm.get('athleteDetails.nationality')!.invalid && userForm.get('athleteDetails.nationality')!.touched">
+        <small *ngIf="userForm.get('athleteDetails.nationality')!.errors?.['required']">Nationality is required.</small>
+      </div>
+
+      <label for="sport">Sport:</label>
+      <input id="sport" formControlName="sport" required>
+      <div *ngIf="userForm.get('athleteDetails.sport')!.invalid && userForm.get('athleteDetails.sport')!.touched">
+        <small *ngIf="userForm.get('athleteDetails.sport')!.errors?.['required']">Sport is required.</small>
+      </div>
+
+      <label for="position">Position:</label>
+      <input id="position" formControlName="position" required>
+      <div *ngIf="userForm.get('athleteDetails.position')!.invalid && userForm.get('athleteDetails.position')!.touched">
+        <small *ngIf="userForm.get('athleteDetails.position')!.errors?.['required']">Position is required.</small>
+      </div>
+
+      <label for="isSigned">Is Signed:</label>
+      <select id="isSigned" formControlName="isSigned" required>
+        <option [value]="true">Yes</option>
+        <option [value]="false">No</option>
+      </select>
+
+      <label for="birthDate">Birth Date:</label>
+      <input id="birthDate" type="date" formControlName="birthDate" required>
+      <div *ngIf="userForm.get('athleteDetails.birthDate')!.invalid && userForm.get('athleteDetails.birthDate')!.touched">
+        <small *ngIf="userForm.get('athleteDetails.birthDate')!.errors?.['required']">Birth Date is required.</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Club Details -->
+  <div *ngIf="isClub()">
+    <h3>Club Details</h3>
+    <div formGroupName="clubDetails">
+      <label for="name">Name:</label>
+      <input id="name" formControlName="name" required>
+      <div *ngIf="userForm.get('clubDetails.name')!.invalid && userForm.get('clubDetails.name')!.touched">
+        <small *ngIf="userForm.get('clubDetails.name')!.errors?.['required']">Name is required.</small>
+      </div>
+
+      <label for="address">Address:</label>
+      <input id="address" formControlName="address" required>
+      <div *ngIf="userForm.get('clubDetails.address')!.invalid && userForm.get('clubDetails.address')!.touched">
+        <small *ngIf="userForm.get('clubDetails.address')!.errors?.['required']">Address is required.</small>
+      </div>
+
+      <label for="openingDate">Opening Date:</label>
+      <input id="openingDate" type="date" formControlName="openingDate" required>
+      <div *ngIf="userForm.get('clubDetails.openingDate')!.invalid && userForm.get('clubDetails.openingDate')!.touched">
+        <small *ngIf="userForm.get('clubDetails.openingDate')!.errors?.['required']">Opening Date is required.</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Agent Details -->
+  <div *ngIf="isAgent()">
+    <h3>Agent Details</h3>
+    <div formGroupName="agentDetails">
+      <label for="firstName">First Name:</label>
+      <input id="firstName" formControlName="firstName" required>
+      <div *ngIf="userForm.get('agentDetails.firstName')!.invalid && userForm.get('agentDetails.firstName')!.touched">
+        <small *ngIf="userForm.get('agentDetails.firstName')!.errors?.['required']">First Name is required.</small>
+      </div>
+
+      <label for="lastName">Last Name:</label>
+      <input id="lastName" formControlName="lastName" required>
+      <div *ngIf="userForm.get('agentDetails.lastName')!.invalid && userForm.get('agentDetails.lastName')!.touched">
+        <small *ngIf="userForm.get('agentDetails.lastName')!.errors?.['required']">Last Name is required.</small>
+      </div>
+
+      <label for="club">Select Club:</label>
+      <select id="club" formControlName="club" required>
+        <option *ngFor="let club of clubs" [value]="club.id">{{ club.name }}</option>
+      </select>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="userForm!.invalid">Submit</button>
+
+  <div *ngIf="error">
+    <p>{{ error }}</p>
+  </div>
+</form>

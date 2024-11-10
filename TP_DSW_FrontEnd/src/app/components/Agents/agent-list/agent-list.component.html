@@ -1,0 +1,38 @@
+
+  
+<div class="container">
+    <h2>Lista de Agentes</h2>
+  
+    <button (click)="navigateToNewUser()" class="btn btn-success mb-3">Crear Nuevo Usuario</button>
+  
+    <div *ngIf="isLoading" class="alert alert-info">Cargando agentes...</div>
+  
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>ID club</th>
+          <th>ID usuario</th>
+
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let agent of agents">
+          <td>{{ agent.id }}</td>
+          <td>{{ agent.firstName }}</td>
+          <td>{{ agent.lastName }}</td>
+          <td>{{ agent.club }}</td>
+          <td>{{ agent.user }}</td>
+          <td>
+            <button *ngIf="agent.id !== undefined" (click)="editUser(agent.id!)" class="btn btn-warning">Editar</button>
+            <button *ngIf="agent.id !== undefined" (click)="deleteUser(agent.id!,agent.user!)" class="btn btn-danger">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
