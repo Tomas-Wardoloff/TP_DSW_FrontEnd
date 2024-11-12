@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">TP DSW</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/users']" routerLinkActive="active">Usuarios</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/athletes']" routerLinkActive="active">Atletas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/agents']" routerLinkActive="active">Agentes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/clubs']" routerLinkActive="active">Clubes</a>
+        </li>
+      </ul>
+      <div class="d-flex">
+        <a class="btn btn-outline-success me-2" [routerLink]="['/users/new']">Registrarse</a>
+        <a class="btn btn-outline-primary" [routerLink]="['/login']">Iniciar Sesión</a>
+      </div>
+    </div>
+  </div>
+</nav>

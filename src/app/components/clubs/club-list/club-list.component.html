@@ -1,0 +1,32 @@
+<div class="container">
+    <h2>Lista de Clubes</h2>
+    <button (click)="navigateToNewUser()" class="btn btn-success mb-3">Crear Nuevo Usuario</button>
+    <div *ngIf="isLoading" class="alert alert-info">Cargando clubes...</div>
+    <div *ngIf="message" class="alert alert-success">{{ message }}</div>
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Direccion</th>
+          <th>Fecha de fundacion</th>
+          <th>ID usuario</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let club of clubs">
+          <td>{{ club.id }}</td>
+          <td>{{ club.name }}</td>
+          <td>{{ club.address }}</td>
+          <td>{{ club.openingDate }}</td>
+          <td>{{ club.user.id }}</td>
+          <td>
+            <button *ngIf="club.id !== undefined" (click)="editUser(club.id!)" class="btn btn-warning me-2">Editar</button>
+            <button *ngIf="club.id !== undefined" (click)="deleteClubAndUser(club.id!, club.user.id!)" class="btn btn-danger">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
