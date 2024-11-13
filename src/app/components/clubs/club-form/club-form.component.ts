@@ -73,15 +73,28 @@ export class ClubFormComponent implements OnInit{
   
   onSubmit() {
     if(this.clubForm.valid){
-      this.clubService.createClub(this.clubForm.value).subscribe({
-        next: (response) => {
-          this.router.navigate(['/clubs']);
-        },
-        error: (err) => {
-          this.error = 'Error al crear el club';
-          console.error(err);
-        }
-      })
+      if (this.isEditMode){
+        const clubId = this.route.snapshot.params['id'];
+        this.clubService.updateClub(clubId, this.clubForm.value).subscribe({
+          next: () => {
+            this.router.navigate(['/clubs']);
+          },
+          error: (err) => {
+            this.error = 'Error al actualizar el club';
+            console.error(err);
+          }
+        });
+      } else{
+        this.clubService.createClub(this.clubForm.value).subscribe({
+          next: (response) => {
+            this.router.navigate(['/clubs']);
+          },
+          error: (err) => {
+            this.error = 'Error al crear el club';
+            console.error(err);
+          }
+        })
+      }
     }
   }
 
