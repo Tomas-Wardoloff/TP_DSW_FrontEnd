@@ -16,10 +16,16 @@ export class AthleteService {
     return this.http.get<{message: string, data: Athlete}>(`${this.apiUrl}/${id}`);
   }
 
-  getAthletes(sport?: string): Observable<{message: string, data: Athlete[]}> {
+  getAthletes(sport?: string, position?: string, nationality?: string): Observable<{message: string, data: Athlete[]}> {
     let params = new HttpParams(); // para guardar los parametros
     if (sport) {
       params = params.append('sport', sport);
+    }
+    if (position) {
+      params = params.append('position', position);
+    }
+    if (nationality){
+      params = params.append('nationality', nationality);
     }
     return this.http.get<{message: string, data: Athlete[]}>(this.apiUrl, {params});
   }

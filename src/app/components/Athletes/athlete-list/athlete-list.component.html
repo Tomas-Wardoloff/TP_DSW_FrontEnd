@@ -3,7 +3,9 @@
     <div class="d-flex mb-3 justify-content-between align-items-center">
       <button (click)="navigateToNewAthlete()" class="btn btn-success mb-3">Crear Nuevo Atleta</button>
       <div class="d-flex align-items-center">
-        <input id="sportFilter" type="text" class="form-control mr-3" placeholder="Ingrese el deporte" (input)="onFilterChange($event)">
+        <input id="sportFilter" type="text" class="form-control mr-3" placeholder="Ingrese el deporte" (input)="onSportFilterChange($event)">
+        <input id="positionFilter" type="text" class="form-control mr-3" placeholder="Ingrese la posición" (input)="onPositionFilterChange($event)">
+        <input id="nationalityFilter" type="text" class="form-control mr-3" placeholder="Ingrese la nacionalidad" (input)="onNationalityFilterChange($event)">
       </div>
     </div>
     <div *ngIf="isLoading" class="alert alert-info">Cargando atletas...</div>
