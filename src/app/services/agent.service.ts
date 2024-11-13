@@ -21,8 +21,8 @@ export class AgentService {
     return this.http.get<{message: string, data: Agent[]}>(this.apiUrl);
   }
 
-  createAgent(Agent: Agent): Observable<Agent> {
-    return this.http.post<Agent>(this.apiUrl, Agent);
+  createAgent(Agent: Agent): Observable<{message: string, data: Agent}> {
+    return this.http.post<{message: string, data: Agent}>(this.apiUrl, Agent);
   }
 
   updateAgent(id: number, Agent: Agent): Observable<{message: string}> {

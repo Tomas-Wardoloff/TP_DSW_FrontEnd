@@ -1,6 +1,6 @@
 <div class="container">
     <h2>Lista de Agentes</h2>  
-    <button (click)="navigateToNewUser()" class="btn btn-success mb-3">Crear Nuevo Usuario</button>
+    <button (click)="navigateToNewAgent()" class="btn btn-success mb-3">Crear Nuevo Agente</button>
     <div *ngIf="isLoading" class="alert alert-info">Cargando agentes...</div>
     <div *ngIf="message" class="alert alert-success">{{ message }}</div>
     <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
@@ -10,8 +10,8 @@
           <th>ID</th>
           <th>Nombre</th>
           <th>Apellido</th>
-          <th>ID club</th>
-          <th>ID usuario</th>
+          <th>Club</th>
+          <th>Usuario</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -20,10 +20,10 @@
           <td>{{ agent.id }}</td>
           <td>{{ agent.firstName }}</td>
           <td>{{ agent.lastName }}</td>
-          <td>{{ agent.club }}</td>
-          <td>{{ agent.user.id }}</td>
+          <td>{{ agent.club.name }}</td>
+          <td>{{ agent.user.email }}</td>
           <td>
-            <button *ngIf="agent.id !== undefined" (click)="editUser(agent.id!)" class="btn btn-warning me-2">Editar</button>
+            <button *ngIf="agent.id !== undefined" (click)="editAgent(agent.id!)" class="btn btn-warning me-2">Editar</button>
             <button *ngIf="agent.id !== undefined" (click)="deleteAgentAndUser(agent.id!, agent.user.id!)" class="btn btn-danger">Eliminar</button>
           </td>
         </tr>

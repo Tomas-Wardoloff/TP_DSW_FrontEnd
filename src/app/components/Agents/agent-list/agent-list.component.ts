@@ -1,4 +1,3 @@
-// src/app/components/agents/agent-list/agent-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute,RouterModule} from '@angular/router';
 import { CommonModule } from '@angular/common'; 
@@ -67,12 +66,12 @@ export class AgentListComponent implements OnInit {
     }
   }
 
-  editUser(id: number): void {
-    this.router.navigate(['/users/edit', id]); // redirige a la ruta para editar usuarios
+  editAgent(id: number): void {
+    this.router.navigate(['/agents/edit', id]); // redirige a la ruta para editar agentess
   }  
 
-  navigateToNewUser(): void {
-    this.router.navigate(['/users/new']); // // redirige a la ruta para crear usuarios
+  navigateToNewAgent(): void {
+    this.router.navigate(['/agents/new']); // // redirige a la ruta para crear agentes
   }
 }
 

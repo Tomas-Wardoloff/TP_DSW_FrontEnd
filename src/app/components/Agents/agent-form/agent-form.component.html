@@ -1,0 +1,41 @@
+<div class="container-sm mt-4">
+    <div class="card shadow-sm p-4">
+        <h2>Crear Agente</h2>
+        <form [formGroup]="agentForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <label for="firstName" class="form-label">Nombre</label>
+                <input id="firstName" type="text" formControlName="firstName" class="form-control" required/>
+                <div *ngIf="agentForm.get('firstName')!.invalid && agentForm.get('firstName')!.touched">
+                    <small *ngIf="agentForm.get('firstName')!.errors?.['required']" class="form-text">El nombre es requerido.</small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="lastName" class="form-label">Apellido</label>
+                <input id="lastName" type="text" formControlName="lastName" class="form-control" required/>
+                <div *ngIf="agentForm.get('lastName')!.invalid && agentForm.get('lastName')!.touched">
+                    <small *ngIf="agentForm.get('lastName')!.errors?.['required']" class="form-text">El apellido es requerido.</small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="userId" class="form-label">Usuario</label>
+                <select id="userId" formControlName="userId" class="form-select" required="">
+                    <option value="" disabled selected>Seleccione el usuario</option>
+                    <option *ngFor="let user of users" [value]="user.id">{{ user.email }}</option>
+                  </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="clubId" class="form-label">Club</label>
+                <select id="clubId" formControlName="clubId" class="form-select" required="">
+                    <option value="" disabled selected>Seleccione el club</option>
+                    <option *ngFor="let club of clubs" [value]="club.id">{{ club.name }}</option>
+                  </select>
+            </div>
+
+            <button type="submit" class="btn btn-success mr-3" [disabled]="agentForm.invalid">Enviar</button>
+            <button type="button" class="btn btn-danger" (click)="onCancel()">Cancelar</button>
+        </form>
+    </div>
+</div>
