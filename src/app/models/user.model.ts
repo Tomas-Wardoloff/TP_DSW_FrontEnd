@@ -5,7 +5,7 @@ export interface User {
     phoneNumber: string;
     userType: UserType;
     isActive: Boolean;
-    lastLogin: String;
+    lastLogin: Date;
 }
 
 export enum UserType {
