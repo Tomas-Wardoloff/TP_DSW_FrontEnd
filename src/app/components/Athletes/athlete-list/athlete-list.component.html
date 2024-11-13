@@ -15,7 +15,7 @@
           <th>Deporte</th>
           <th>Posicion</th>
           <th>Tiene equipo?</th>
-          <th>ID usuario</th>
+          <th>Usuario</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -29,7 +29,7 @@
           <td>{{ athlete.sport }}</td>
           <td>{{ athlete.position }}</td>
           <td>{{ athlete.isSigned }}</td>
-          <td>{{ athlete.user.id }}</td>
+          <td>{{ athlete.user.email }}</td>
           <td>
             <button *ngIf="athlete.id !== undefined" (click)="editAthlete(athlete.id!)" class="btn btn-warning me-2">Editar</button>
             <button *ngIf="athlete.id !== undefined" (click)="deleteAthleteAndUser(athlete.id!, athlete.user.id!)" class="btn btn-danger">Eliminar</button>

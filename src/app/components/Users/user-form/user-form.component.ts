@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, Validators, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormBuilder } from '@angular/forms';
 import { switchMap } from 'rxjs';
 import { of } from 'rxjs';
 
@@ -56,15 +55,30 @@ export class UserFormComponent implements OnInit{
   }
 
   onSubmit(): void {
+    console.log(this.isEditMode);
     if (this.userForm.valid) {
       this.userForm.patchValue({ lastLogin: new Date().toISOString() }); // seteo la fecha y hora actual como lastLogin
-      this.userService.createUser(this.userForm.value).subscribe({
-        next: () => { this.router.navigate(['/users']); },
-        error: (err) => { 
-          this.error = err; 
-          console.log(err);
-        }
-      });
+      
+      if (this.isEditMode){
+        const userId = this.route.snapshot.params['id'];
+        this.userService.updateUser(userId, this.userForm.value).subscribe({
+          next: () => {
+            this.router.navigate(['/users']);
+          },
+          error: (err) => {
+            this.error = 'Ocurrio un error al actualizar el usuario';
+            console.error(err);
+          }
+        });
+      } else {
+        this.userService.createUser(this.userForm.value).subscribe({
+          next: () => { this.router.navigate(['/users']); },
+          error: (err) => { 
+            this.error = err; 
+            console.log(err);
+          }
+        });
+      }
     }
   }
 

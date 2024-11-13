@@ -11,7 +11,7 @@
           <th>Nombre</th>
           <th>Direccion</th>
           <th>Fecha de fundacion</th>
-          <th>ID usuario</th>
+          <th>Usuario</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -21,7 +21,7 @@
           <td>{{ club.name }}</td>
           <td>{{ club.address }}</td>
           <td>{{ club.openingDate }}</td>
-          <td>{{ club.user.id }}</td>
+          <td>{{ club.user.email }}</td>
           <td>
             <button *ngIf="club.id !== undefined" (click)="editClub(club.id!)" class="btn btn-warning me-2">Editar</button>
             <button *ngIf="club.id !== undefined" (click)="deleteClubAndUser(club.id!, club.user.id!)" class="btn btn-danger">Eliminar</button>
