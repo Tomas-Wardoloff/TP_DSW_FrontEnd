@@ -1,0 +1,74 @@
+<div class="container-sm mt-4">
+    <div class="card shadow-sm p-4">
+        <h2>Crear Atleta</h2>
+        <form [formGroup]="athleteForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <label for="firstName" class="form-label">Nombre</label>
+                <input id="firstName" type="text" formControlName="firstName" class="form-control" required/>
+                <div *ngIf="athleteForm.get('firstName')!.invalid && athleteForm.get('firstName')!.touched">
+                    <small *ngIf="athleteForm.get('firstName')!.errors?.['required']" class="form-text">El nombre es requerido.</small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="lastName" class="form-label">Apellido</label>
+                <input id="lastName" type="text" formControlName="lastName" class="form-control" required/>
+                <div *ngIf="athleteForm.get('lastName')!.invalid && athleteForm.get('lastName')!.touched">
+                    <small *ngIf="athleteForm.get('lastName')!.errors?.['required']" class="form-text">El apellido es requerido.</small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="birthDate" class="form-label">Fecha de Nacimiento</label>
+                <input id="birthDate" type="date" formControlName="birthDate" class="form-control" required/>
+                <div *ngIf="athleteForm.get('birthDate')!.invalid && athleteForm.get('birthDate')!.touched">
+                    <small *ngIf="athleteForm.get('birthDate')!.errors?.['required']" class="form-text">El la fecha de nacimiento es requerida.</small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="nationality" class="form-label">Nacionalidad</label>
+                <input id="nationality" type="text" formControlName="nationality" class="form-control" required/>
+                <div *ngIf="athleteForm.get('nationality')!.invalid && athleteForm.get('nationality')!.touched">
+                    <small *ngIf="athleteForm.get('nationality')!.errors?.['required']" class="form-text">La nacionalidad es requerida.</small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="sport" class="form-label">Deporte</label>
+                <input id="sport" type="text" formControlName="sport" class="form-control" required/>
+                <div *ngIf="athleteForm.get('sport')!.invalid && athleteForm.get('sport')!.touched">
+                    <small *ngIf="athleteForm.get('sport')!.errors?.['required']" class="form-text">El deporte es requerido.</small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="position" class="form-label">Posición</label>
+                <input id="position" type="text" formControlName="position" class="form-control" required/>
+                <div *ngIf="athleteForm.get('position')!.invalid && athleteForm.get('position')!.touched">
+                    <small *ngIf="athleteForm.get('position')!.errors?.['required']" class="form-text">La posicion es requerida.</small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="isSigned" formControlName="isSigned">
+                    <label class="form-check-label" for="isSigned">
+                        ¿Está fichado?
+                    </label>
+                  </div>                  
+            </div>
+
+            <div class="mb-3">
+                <label for="userId" class="form-label">Tipo de Usuario</label>
+                <select id="userId" formControlName="userId" class="form-select" required="">
+                    <option value="" disabled selected>Seleccione el usuario</option>
+                    <option *ngFor="let user of users" [value]="user.id">{{ user.email }}</option>
+                  </select>
+            </div>
+
+            <button type="submit" class="btn btn-success mr-3" [disabled]="athleteForm.invalid">Enviar</button>
+            <button type="button" class="btn btn-danger" (click)="onCancel()">Cancelar</button>
+        </form>
+    </div>
+</div>

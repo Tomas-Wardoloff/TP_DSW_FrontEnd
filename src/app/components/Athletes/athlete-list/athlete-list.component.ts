@@ -68,11 +68,11 @@ export class AthleteListComponent implements OnInit {
     }
   }
 
-  editUser(id: number): void {
-    this.router.navigate(['/users/edit', id]); // redirige a la ruta para editar usuarios
+  editAthlete(id: number): void {
+    this.router.navigate(['/athletes/edit', id]); // redirige a la ruta para editar atleta
   }
 
-  navigateToNewUser(): void {
-    this.router.navigate(['/users/new']); // redirige a la ruta para crear usuarios
+  navigateToNewAthlete(): void {
+    this.router.navigate(['/athletes/new']); // redirige a la ruta para crear athleta
   }
 }

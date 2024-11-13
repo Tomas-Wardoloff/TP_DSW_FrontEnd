@@ -1,6 +1,6 @@
 <div class="container">
     <h2>Lista de Atletas</h2>
-    <button (click)="navigateToNewUser()" class="btn btn-success mb-3">Crear Nuevo Usuario</button>
+    <button (click)="navigateToNewAthlete()" class="btn btn-success mb-3">Crear Nuevo Atleta</button>
     <div *ngIf="isLoading" class="alert alert-info">Cargando atletas...</div>
     <div *ngIf="message" class="alert alert-success">{{ message }}</div>
     <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
@@ -31,7 +31,7 @@
           <td>{{ athlete.isSigned }}</td>
           <td>{{ athlete.user.id }}</td>
           <td>
-            <button *ngIf="athlete.id !== undefined" (click)="editUser(athlete.id!)" class="btn btn-warning me-2">Editar</button>
+            <button *ngIf="athlete.id !== undefined" (click)="editAthlete(athlete.id!)" class="btn btn-warning me-2">Editar</button>
             <button *ngIf="athlete.id !== undefined" (click)="deleteAthleteAndUser(athlete.id!, athlete.user.id!)" class="btn btn-danger">Eliminar</button>
           </td>
         </tr>

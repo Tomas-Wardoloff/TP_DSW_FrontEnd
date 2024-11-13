@@ -6,6 +6,7 @@ import { UserFormComponent } from './components/Users/user-form/user-form.compon
 import { AgentListComponent } from './components/Agents/agent-list/agent-list.component';
 import { AthleteListComponent } from './components/Athletes/athlete-list/athlete-list.component';
 import { ClubListComponent } from './components/clubs/club-list/club-list.component';
+import { AthleteFormComponent } from './components/Athletes/athlete-form/athlete-form.component';
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent },
@@ -23,8 +24,8 @@ export const routes: Routes = [
 
   // Athletes
   { path: 'athletes', component: AthleteListComponent },
-  { path: 'athletes/new', component: UserFormComponent },
-  { path: 'athletes/edit/:id', component: UserFormComponent },
+  { path: 'athletes/new', component: AthleteFormComponent },
+  { path: 'athletes/edit/:id', component: AthleteFormComponent },
 
   // Clubs
   { path: 'clubs', component: ClubListComponent },
