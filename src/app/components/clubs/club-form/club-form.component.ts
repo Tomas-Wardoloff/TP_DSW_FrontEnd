@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { User } from 'app/models/user.model';
+import { User, UserType } from 'app/models/user.model';
 import { ClubService } from 'app/services/club.service';
 import { UserService } from 'app/services/user.service';
 
@@ -19,6 +19,9 @@ export class ClubFormComponent implements OnInit{
   isEditMode: boolean = false;
   users: User[] = [];
   error: string = '';
+
+  // Filtros
+  userTypeFilter: UserType = UserType.CLUB;
   
   constructor(
     private fb: FormBuilder,
@@ -34,9 +37,10 @@ export class ClubFormComponent implements OnInit{
       userId: ['']
     });
   }
+
   ngOnInit(): void {
     // cargo los usuarios para ser mostrados en el select
-    this.userService.getUsers().subscribe({
+    this.userService.getUsers(this.userTypeFilter).subscribe({
       next:(response) => {
         this.users = response.data;
       },
@@ -90,8 +94,11 @@ export class ClubFormComponent implements OnInit{
             this.router.navigate(['/clubs']);
           },
           error: (err) => {
-            this.error = 'Error al crear el club';
-            console.error(err);
+            if (err.status === 409){
+              this.error = 'El club ya existe para el usuario';
+            } else {
+              this.error = 'Error al crear el club';
+            }
           }
         })
       }

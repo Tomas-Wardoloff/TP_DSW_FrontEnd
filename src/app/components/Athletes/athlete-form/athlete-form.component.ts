@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 
 import { AthleteService } from '../../../services/athlete.service';
-import { User } from 'app/models/user.model';
+import { User, UserType } from 'app/models/user.model';
 import { UserService } from 'app/services/user.service';
 
 @Component({
@@ -19,6 +19,9 @@ export class AthleteFormComponent implements OnInit{
   isEditMode: boolean = false;
   users: User[] = [];
   error: string = '';
+
+  // Filtros
+  userTypeFilter: UserType = UserType.ATHLETE;
 
   constructor(
     private fb: FormBuilder,
@@ -41,7 +44,7 @@ export class AthleteFormComponent implements OnInit{
   
   ngOnInit(): void {
     // cargo los usuarios para ser mostrados en el select
-    this.userService.getUsers().subscribe({
+    this.userService.getUsers(this.userTypeFilter).subscribe({
       next:(response) => {
         this.users = response.data;
       },
@@ -99,12 +102,16 @@ export class AthleteFormComponent implements OnInit{
             this.router.navigate(['/athletes']); 
           },
           error: (err) => { 
-            this.error = err; 
-            console.log(err);
+            if (err.status == 409) {
+              this.error = 'El atleta ya existe para ese usuario'; 
+            } else {
+              this.error = 'Error al crear el atleta';
+            }
           }
         });
       }
     }
+    this.athleteForm.reset(); // limpio el formulario independiente de si se guardo o no
   }
 
   onCancel(): void {

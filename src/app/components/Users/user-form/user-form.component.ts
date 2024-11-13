@@ -73,12 +73,16 @@ export class UserFormComponent implements OnInit{
         this.userService.createUser(this.userForm.value).subscribe({
           next: () => { this.router.navigate(['/users']); },
           error: (err) => { 
-            this.error = err; 
-            console.log(err);
+            if (err.status === 409) {
+              this.error = 'El usuario ya esta existe'; // chequeo el status de la respuesta
+            } else {
+              this.error = 'Ocurrio un error al crear el usuario';
+            }
           }
         });
       }
     }
+    this.userForm.reset(); // limpio el formulario independiente de si se guardo o no
   }
 
   onCancel(): void {

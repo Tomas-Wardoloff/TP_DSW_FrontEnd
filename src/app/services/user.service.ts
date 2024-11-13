@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { User } from '../models/user.model'; 
+import { User, UserType } from '../models/user.model'; 
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +16,12 @@ export class UserService {
     return this.http.get<{message: string, data: User}>(`${this.apiUrl}/${id}`);
   }
 
-  getUsers(): Observable<{message: string, data: User[]}> {
-    return this.http.get<{message: string, data: User[]}>(this.apiUrl);
+  getUsers(userType?: UserType): Observable<{message: string, data: User[]}> {
+    let params = new HttpParams();
+    if (userType) {
+      params = params.append('userType', userType);
+    }
+    return this.http.get<{message: string, data: User[]}>(this.apiUrl, {params});
   }
 
   createUser(User: User): Observable<{message: string, data: User}> {

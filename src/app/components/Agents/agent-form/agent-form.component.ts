@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Club } from 'app/models/club.model';
-import { User } from 'app/models/user.model';
+import { User, UserType } from 'app/models/user.model';
 import { AgentService } from 'app/services/agent.service';
 import { ClubService } from 'app/services/club.service';
 import { UserService } from 'app/services/user.service';
@@ -22,6 +22,9 @@ export class AgentFormComponent implements OnInit {
   users: User[] = [];
   clubs: Club[] = [];
   error: string = '';
+
+  // Filtros
+  userTypeFilter: UserType = UserType.AGENT;
 
   constructor(
     private fb: FormBuilder,
@@ -41,7 +44,7 @@ export class AgentFormComponent implements OnInit {
   
   ngOnInit(): void {
     // cargo los usuarios para ser mostrados en el select
-    this.userService.getUsers().subscribe({
+    this.userService.getUsers(this.userTypeFilter).subscribe({
       next:(response) => {
         this.users = response.data;
       },
@@ -105,8 +108,11 @@ export class AgentFormComponent implements OnInit {
             this.router.navigate(['/agents']);
           },
           error: (err) => {
-            this.error = 'Error al crear el agente';
-            console.error(err);
+            if (err.status == 409) {
+              this.error = 'El agente ya existe para ese usuario';
+            } else {
+              this.error = 'Error al crear el agente';
+            }
           }
         });
       }
