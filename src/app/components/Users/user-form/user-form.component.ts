@@ -55,7 +55,6 @@ export class UserFormComponent implements OnInit{
   }
 
   onSubmit(): void {
-    console.log(this.isEditMode);
     if (this.userForm.valid) {
       this.userForm.patchValue({ lastLogin: new Date().toISOString() }); // seteo la fecha y hora actual como lastLogin
       

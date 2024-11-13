@@ -87,19 +87,19 @@ export class AgentFormComponent implements OnInit {
   }
   
   onSubmit(): void {
-    if (this.isEditMode){
-      const agentId = this.route.snapshot.params['id'];
-      this.agentService.updateAgent(agentId, this.agentForm.value).subscribe({
-        next: () => {
-          this.router.navigate(['/agents']);
-        },
-        error: (err) => {
-          this.error = 'Error al actualizar el agente';
-          console.error(err);
-        }
-      });
-    } else {
-      if (this.agentForm.valid){
+    if (this.agentForm.valid){
+      if (this.isEditMode){
+        const agentId = this.route.snapshot.params['id'];
+        this.agentService.updateAgent(agentId, this.agentForm.value).subscribe({
+          next: () => {
+            this.router.navigate(['/agents']);
+          },
+          error: (err) => {
+            this.error = 'Error al actualizar el agente';
+            console.error(err);
+          }
+        });
+      } else {
         this.agentService.createAgent(this.agentForm.value).subscribe({
           next: () => {
             this.router.navigate(['/agents']);

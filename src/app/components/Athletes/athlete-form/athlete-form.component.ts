@@ -81,16 +81,29 @@ export class AthleteFormComponent implements OnInit{
   }
   
   onSubmit(): void {
-    if (this.athleteForm.valid) {
-      this.athleteService.createAthlete(this.athleteForm.value).subscribe({
-        next: () => { 
-          this.router.navigate(['/athletes']); 
-        },
-        error: (err) => { 
-          this.error = err; 
-          console.log(err);
-        }
-      });
+    if (this.athleteForm.valid){
+      if (this.isEditMode){
+        const athleteId = this.route.snapshot.params['id'];
+        this.athleteService.updateAthlete(athleteId, this.athleteForm.value).subscribe({
+          next: () => { 
+            this.router.navigate(['/athletes']); 
+          },
+          error: (err) => { 
+            this.error = 'Error al actualizar el atleta'; 
+            console.log(err);
+          }
+        });
+      } else {
+        this.athleteService.createAthlete(this.athleteForm.value).subscribe({
+          next: () => { 
+            this.router.navigate(['/athletes']); 
+          },
+          error: (err) => { 
+            this.error = err; 
+            console.log(err);
+          }
+        });
+      }
     }
   }
 
