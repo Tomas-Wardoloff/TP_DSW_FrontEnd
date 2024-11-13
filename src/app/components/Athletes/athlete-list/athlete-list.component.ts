@@ -21,6 +21,9 @@ export class AthleteListComponent implements OnInit {
   isLoading: boolean = true;
   error: string = '';
   message: string = '';
+  
+  // Filtros
+  sportFilter: string = '';
 
   constructor(
     private athleteService: AthleteService, 
@@ -35,7 +38,7 @@ export class AthleteListComponent implements OnInit {
 
   fetchAthletes(): void {
     this.isLoading = true;
-    this.athleteService.getAthletes().subscribe({
+    this.athleteService.getAthletes(this.sportFilter).subscribe({
       next: (response) => {
         this.athletes = response.data;
         this.isLoading = false;
@@ -74,5 +77,11 @@ export class AthleteListComponent implements OnInit {
 
   navigateToNewAthlete(): void {
     this.router.navigate(['/athletes/new']); // redirige a la ruta para crear athleta
+  }
+
+  onFilterChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.sportFilter = inputElement.value;
+    this.fetchAthletes();
   }
 }

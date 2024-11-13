@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Athlete } from '../models/athlete.model';
@@ -16,8 +16,12 @@ export class AthleteService {
     return this.http.get<{message: string, data: Athlete}>(`${this.apiUrl}/${id}`);
   }
 
-  getAthletes(): Observable<{message: string, data: Athlete[]}> {
-    return this.http.get<{message: string, data: Athlete[]}>(this.apiUrl);
+  getAthletes(sport?: string): Observable<{message: string, data: Athlete[]}> {
+    let params = new HttpParams(); // para guardar los parametros
+    if (sport) {
+      params = params.append('sport', sport);
+    }
+    return this.http.get<{message: string, data: Athlete[]}>(this.apiUrl, {params});
   }
 
   createAthlete(Athlete: Athlete): Observable<{message: string, data: Athlete}> {

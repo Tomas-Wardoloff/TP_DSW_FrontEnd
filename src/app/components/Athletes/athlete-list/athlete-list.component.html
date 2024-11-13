@@ -1,6 +1,11 @@
 <div class="container">
     <h2>Lista de Atletas</h2>
-    <button (click)="navigateToNewAthlete()" class="btn btn-success mb-3">Crear Nuevo Atleta</button>
+    <div class="d-flex mb-3 justify-content-between align-items-center">
+      <button (click)="navigateToNewAthlete()" class="btn btn-success mb-3">Crear Nuevo Atleta</button>
+      <div class="d-flex align-items-center">
+        <input id="sportFilter" type="text" class="form-control mr-3" placeholder="Ingrese el deporte" (input)="onFilterChange($event)">
+      </div>
+    </div>
     <div *ngIf="isLoading" class="alert alert-info">Cargando atletas...</div>
     <div *ngIf="message" class="alert alert-success">{{ message }}</div>
     <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
