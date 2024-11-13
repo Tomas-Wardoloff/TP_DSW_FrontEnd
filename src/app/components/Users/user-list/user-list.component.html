@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container mt-4">
   <h2>Lista de Usuarios</h2>
   <button (click)="navigateToNewUser()" class="btn btn-success mb-3">Crear Nuevo Usuario</button>
   <div *ngIf="isLoading" class="alert alert-info">Cargando usuarios...</div>
@@ -20,7 +20,7 @@
         <td>{{ user.email }}</td>
         <td>{{ user.userType }}</td>
         <td>{{ user.phoneNumber }}</td>
-        <td>{{ user.lastLogin }}</td>
+        <td>{{ user.lastLogin | date:'dd/MM/yyyy, hh:mm a' }}</td>
         <td>
           <button *ngIf="user.id !== undefined" (click)="editUser(user.id!)" class="btn btn-warning me-2">Editar</button>
           <button *ngIf="user.id !== undefined" (click)="deleteUser(user.id!)" class="btn btn-danger">Eliminar</button>

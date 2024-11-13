@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container mt-4">
     <h2>Lista de Clubes</h2>
     <button (click)="navigateToNewClub()" class="btn btn-success mb-3">Crear Nuevo Club</button>
     <div *ngIf="isLoading" class="alert alert-info">Cargando clubes...</div>
@@ -20,7 +20,7 @@
           <td>{{ club.id }}</td>
           <td>{{ club.name }}</td>
           <td>{{ club.address }}</td>
-          <td>{{ club.openingDate }}</td>
+          <td>{{ club.openingDate | date:'dd/MM/yyyy' }}</td>
           <td>{{ club.user.email }}</td>
           <td>
             <button *ngIf="club.id !== undefined" (click)="editClub(club.id!)" class="btn btn-warning me-2">Editar</button>
