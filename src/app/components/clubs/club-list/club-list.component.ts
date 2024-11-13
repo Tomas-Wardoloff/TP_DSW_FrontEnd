@@ -67,11 +67,11 @@ export class ClubListComponent implements OnInit {
     }
   }
 
-  editUser(id: number): void {
-    this.router.navigate(['/users/edit', id]); // redirige a la ruta para editar usuarios
+  editClub(id: number): void {
+    this.router.navigate(['clubs/edit/', id]); // redirige a la ruta para editar clubes
   }  
 
-  navigateToNewUser(): void {
-    this.router.navigate(['/users/new']); // redirige a la ruta para crear usuarios
+  navigateToNewClub(): void {
+    this.router.navigate(['clubs/new']); // redirige a la ruta para crear clubes
   }
 }

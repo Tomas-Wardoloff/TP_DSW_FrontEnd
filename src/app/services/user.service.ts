@@ -24,8 +24,8 @@ export class UserService {
     return this.http.post<{message: string, data: User}>(this.apiUrl, User);
   }
 
-  updateUser(id: number, User: User): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/${id}`, User);
+  updateUser(id: number, User: User): Observable<{message: string}> {
+    return this.http.put<{message: string}>(`${this.apiUrl}/${id}`, User);
   }
 
   deleteUser(id: number): Observable<{message: string}> {

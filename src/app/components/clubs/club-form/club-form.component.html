@@ -1,0 +1,41 @@
+<div class="container-sm mt-4">
+    <div class="card shadow-sm p-4">
+        <h2>Crear Club</h2>
+        <form [formGroup]="clubForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <label for="name" class="form-label">Nombre</label>
+                <input id="name" type="text" formControlName="name" class="form-control" required/>
+                <div *ngIf="clubForm.get('name')!.invalid && clubForm.get('name')!.touched">
+                    <small *ngIf="clubForm.get('name')!.errors?.['required']" class="form-text">El nombre es requerido.</small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="address" class="form-label">Dirreccion</label>
+                <input id="address" type="text" formControlName="address" class="form-control" required/>
+                <div *ngIf="clubForm.get('address')!.invalid && clubForm.get('address')!.touched">
+                    <small *ngIf="clubForm.get('address')!.errors?.['required']" class="form-text">La dirección es requerido.</small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="openingDate" class="form-label">Fecha de Fundación</label>
+                <input id="openingDate" type="date" formControlName="openingDate" class="form-control" required/>
+                <div *ngIf="clubForm.get('openingDate')!.invalid && clubForm.get('openingDate')!.touched">
+                    <small *ngIf="clubForm.get('birthDate')!.errors?.['required']" class="form-text">El la fecha de fundación es requerida.</small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="userId" class="form-label">Usuario</label>
+                <select id="userId" formControlName="userId" class="form-select" required="">
+                    <option value="" disabled selected>Seleccione el usuario</option>
+                    <option *ngFor="let user of users" [value]="user.id">{{ user.email }}</option>
+                  </select>
+            </div>
+
+            <button type="submit" class="btn btn-success mr-3" [disabled]="clubForm.invalid">Enviar</button>
+            <button type="button" class="btn btn-danger" (click)="onCancel()">Cancelar</button>
+        </form>
+    </div>
+</div>

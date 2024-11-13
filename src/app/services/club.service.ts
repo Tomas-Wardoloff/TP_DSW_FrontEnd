@@ -19,8 +19,8 @@ export class ClubService {
     return this.http.get<{message: string, data: Club[]}>(this.apiUrl);
   }
 
-  createClub(Club: Club): Observable<Club> {
-    return this.http.post<Club>(this.apiUrl, Club);
+  createClub(Club: Club): Observable<{message: string, data: Club}> {
+    return this.http.post<{message: string, data: Club}>(this.apiUrl, Club);
   }
 
   updateClub(id: number, Club: Club): Observable<{message: string}> {

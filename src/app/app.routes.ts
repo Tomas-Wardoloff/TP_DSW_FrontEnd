@@ -7,6 +7,8 @@ import { AgentListComponent } from './components/Agents/agent-list/agent-list.co
 import { AthleteListComponent } from './components/Athletes/athlete-list/athlete-list.component';
 import { ClubListComponent } from './components/clubs/club-list/club-list.component';
 import { AthleteFormComponent } from './components/Athletes/athlete-form/athlete-form.component';
+import { AgentFormComponent } from './components/Agents/agent-form/agent-form.component';
+import { ClubFormComponent } from './components/clubs/club-form/club-form.component';
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent },
@@ -19,8 +21,8 @@ export const routes: Routes = [
 
   // Agents
   { path: 'agents', component: AgentListComponent },
-  { path: 'agents/new', component: UserFormComponent },
-  { path: 'agents/edit/:id', component: UserFormComponent },
+  { path: 'agents/new', component: AgentFormComponent },
+  { path: 'agents/edit/:id', component: AgentFormComponent },
 
   // Athletes
   { path: 'athletes', component: AthleteListComponent },
@@ -29,8 +31,8 @@ export const routes: Routes = [
 
   // Clubs
   { path: 'clubs', component: ClubListComponent },
-  { path: 'clubs/new', component: UserFormComponent },
-  { path: 'clubs/edit/:id', component: UserFormComponent },
+  { path: 'clubs/new', component: ClubFormComponent },
+  { path: 'clubs/edit/:id', component: ClubFormComponent },
 
   { path: '**', redirectTo: '' } // Ruta para 404
 ];

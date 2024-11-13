@@ -13,8 +13,8 @@ export class AgentService {
 
   constructor(private http: HttpClient) {}
 
-  getAgent(id: number): Observable<Agent> {
-    return this.http.get<Agent>(`${this.apiUrl}/${id}`);
+  getAgent(id: number): Observable<{message: string, data: Agent}> {
+    return this.http.get<{message: string, data: Agent}>(`${this.apiUrl}/${id}`);
   }
 
   getAgents(): Observable<{message: string, data: Agent[]}> {
