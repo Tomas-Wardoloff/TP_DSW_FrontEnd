@@ -31,7 +31,7 @@
           <td>{{ athlete.id }}</td>
           <td>{{ athlete.firstName }}</td>
           <td>{{ athlete.lastName }}</td>
-          <td>{{ athlete.birthDate }}</td>
+          <td>{{ athlete.birthDate | date:'dd/MM/yyyy' }}</td>
           <td>{{ athlete.nationality }}</td>
           <td>{{ athlete.sport }}</td>
           <td>{{ athlete.position }}</td>
