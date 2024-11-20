@@ -1,24 +1,43 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
-import { RouterModule } from '@angular/router'; 
+
+import { Post } from 'app/models/post.model';
+import { PostService } from 'app/services/post.service';
+import { PostsComponent } from "../posts/posts.component";
 
 @Component({
   standalone: true,  
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',  
   styleUrls: ['./homepage.component.css'],    
-  imports: [CommonModule,RouterModule], 
+  imports: [CommonModule, PostsComponent], 
 })
-export class HomepageComponent {
-  title: string = 'Bienvenido a la Página de Inicio';
+export class HomepageComponent implements OnInit{
+  posts: Post[] = [];
+  isLoading: boolean = false;
+  error: string = '';
+
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-  ) {
+    private postService: PostService
+  ){}
+
+  ngOnInit(): void {
+    this.loadPosts();
   }
 
-  onButtonClick() {
+  loadPosts(): void {
+    if (this.isLoading) return;
+
+    this.isLoading = true;
+    this.postService.getPosts().subscribe({
+      next: (response) => {
+        this.posts = response.data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.error = 'Error al cargar los posts';
+        this.isLoading = false;
+      }
+    });
   }
 }
-

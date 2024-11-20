@@ -1,1 +1,7 @@
-<h1>Bienvenido!</h1>
+<div *ngIf="isLoading" class="alert alert-info">Cargando publicaciones</div>
+<div *ngIf="error" class="alert alert-danger m-4">{{ error }}</div>
+<div class="container mt-4">
+    <div *ngFor="let post of posts">
+        <app-posts [post]="post" class="w-100"></app-posts>
+    </div>
+</div>

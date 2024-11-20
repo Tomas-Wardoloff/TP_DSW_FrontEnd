@@ -1,27 +1,14 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router'; 
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, Input } from '@angular/core';
+import { Post } from 'app/models/post.model';
 
 @Component({
-  standalone: true,
   selector: 'app-posts',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './posts.component.html',
-  styleUrls: ['./posts.component.css'],
-  imports: [CommonModule,RouterModule],
+  styleUrl: './posts.component.css'
 })
 export class PostsComponent {
-  posts: string[] = ['Post 1', 'Post 2', 'Post 3'];  // Ejemplo de posts
-
-  constructor(
-      private router: Router,
-      private route: ActivatedRoute,    
-  ) {
-  }
-
-  // Método para agregar un nuevo post
-  addPost(newPost: string) {
-    this.posts.push(newPost);
-    console.log('Nuevo post agregado:', newPost);
-  }
+  @Input() post!: Post;
 }
