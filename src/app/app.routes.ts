@@ -1,18 +1,17 @@
 import { Routes } from '@angular/router';
 import { HomepageComponent } from './components/homepage/homepage.component';
-import { PostsComponent } from "./components/posts/posts.component";
-import { UserListComponent } from './components/Users/user-list/user-list.component';
-import { UserFormComponent } from './components/Users/user-form/user-form.component';
-import { AgentListComponent } from './components/Agents/agent-list/agent-list.component';
-import { AthleteListComponent } from './components/Athletes/athlete-list/athlete-list.component';
-import { ClubListComponent } from './components/clubs/club-list/club-list.component';
-import { AthleteFormComponent } from './components/Athletes/athlete-form/athlete-form.component';
-import { AgentFormComponent } from './components/Agents/agent-form/agent-form.component';
-import { ClubFormComponent } from './components/clubs/club-form/club-form.component';
+import { PostsComponent } from "./components/post/posts.component";
+import { UserListComponent } from './components/user/user-list/user-list.component';
+import { UserFormComponent } from './components/user/user-form/user-form.component';
+import { AgentListComponent } from './components/agent/agent-list/agent-list.component';
+import { AthleteListComponent } from './components/athlete/athlete-list/athlete-list.component';
+import { ClubListComponent } from './components/club/club-list/club-list.component';
+import { AthleteFormComponent } from './components/athlete/athlete-form/athlete-form.component';
+import { AgentFormComponent } from './components/agent/agent-form/agent-form.component';
+import { ClubFormComponent } from './components/club/club-form/club-form.component';
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent },
-  { path: 'posts', component: PostsComponent },
 
   // Users
   { path: 'users', component: UserListComponent },

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { Post } from 'app/models/post.model';
 import { PostService } from 'app/services/post.service';
-import { PostsComponent } from "../posts/posts.component";
+import { PostsComponent } from "../post/posts.component";
 
 @Component({
   standalone: true,  
