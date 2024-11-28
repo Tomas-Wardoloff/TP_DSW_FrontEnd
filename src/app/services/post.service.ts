@@ -19,4 +19,8 @@ export class PostService {
   getPosts(): Observable<{message: string, data: Post[]}>{
     return this.http.get<{message: string, data: Post[]}>(this.apiUrl);
   }
+
+  createPost(Post: Post): Observable<{message: string, data: Post}>{
+    return this.http.post<{message: string, data: Post}>(this.apiUrl, Post);
+  }
 }

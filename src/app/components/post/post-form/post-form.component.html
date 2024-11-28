@@ -1,0 +1,24 @@
+<div class="card mb-3 mx-auto" style="max-width: 600px;">
+    <div class="card-body">
+        <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+            <p>Nueva publicacion</p>
+            <div class="mb-3">
+                <label for="title" class="form-label mr-3">Titulo</label>
+                <input id="title" type="text" formControlName="title" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <textarea id="content" formControlName="content" class="form-control" rows="3" placeholder="¿Qué está pasando?" required></textarea>           
+            </div>
+            <div class="d-flex mb-3 justify-content-between align-items-center">
+                <div>
+                    <label for="author" class="form-label">Usuario</label>
+                    <select id="author" formControlName="author" class="form-select" required="">
+                        <option value="" disabled selected>Seleccione el usuario</option>
+                        <option *ngFor="let user of users" [value]="user.id">{{ user.email }}</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" [disabled]="postForm.invalid">Publicar</button>
+            </div>
+        </form>
+    </div>
+</div>
