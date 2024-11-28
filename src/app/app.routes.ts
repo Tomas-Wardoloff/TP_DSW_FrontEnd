@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { HomepageComponent } from './components/homepage/homepage.component';
-import { PostsComponent } from "./components/post/posts.component";
 import { UserListComponent } from './components/user/user-list/user-list.component';
 import { UserFormComponent } from './components/user/user-form/user-form.component';
 import { AgentListComponent } from './components/agent/agent-list/agent-list.component';

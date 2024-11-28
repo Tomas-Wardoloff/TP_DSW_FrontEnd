@@ -72,7 +72,7 @@ export class UserFormComponent implements OnInit{
           next: () => { this.router.navigate(['/users']); },
           error: (err) => { 
             if (err.status === 409) {
-              this.error = 'El usuario ya esta existe'; // chequeo el status de la respuesta
+              this.error = 'El usuario ya existe'; // chequeo el status de la respuesta
             } else {
               this.error = 'Ocurrio un error al crear el usuario';
             }
