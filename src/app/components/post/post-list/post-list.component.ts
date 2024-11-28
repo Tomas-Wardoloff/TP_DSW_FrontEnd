@@ -3,12 +3,12 @@ import { Component, Input } from '@angular/core';
 import { Post } from 'app/models/post.model';
 
 @Component({
-  selector: 'app-posts',
+  selector: 'app-post-list',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './posts.component.html',
-  styleUrl: './posts.component.css'
+  templateUrl: './post-list.component.html',
+  styleUrl: './post-list.component.css'
 })
-export class PostsComponent {
+export class PostListComponent {
   @Input() post!: Post;
 }

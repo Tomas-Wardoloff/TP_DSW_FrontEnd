@@ -1,7 +1,8 @@
 <div *ngIf="isLoading" class="alert alert-info">Cargando publicaciones</div>
 <div *ngIf="error" class="alert alert-danger m-4">{{ error }}</div>
 <div class="container mt-4">
+    <app-post-form (postCreated)="onPostCreated()"></app-post-form>
     <div *ngFor="let post of posts">
-        <app-posts [post]="post" class="w-100"></app-posts>
+        <app-post-list [post]="post" class="w-100"></app-post-list>
     </div>
 </div>
