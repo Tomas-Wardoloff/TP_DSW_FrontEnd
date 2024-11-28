@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Club } from '../models/club.model'; // Importa tu modelo
+
+import { Club } from '../models/club.model'; 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClubService {
-  private apiUrl = 'http://localhost:3000/api/clubs'; // Cambia esto a tu endpoint
+  private apiUrl = 'http://localhost:3000/api/clubs';
 
   constructor(private http: HttpClient) {}
 
@@ -15,8 +16,12 @@ export class ClubService {
     return this.http.get<{message: string, data: Club}>(`${this.apiUrl}/${id}`);
   }
 
-  getClubs(): Observable<{message: string, data: Club[]}> {
-    return this.http.get<{message: string, data: Club[]}>(this.apiUrl);
+  getClubs(name?: string): Observable<{message: string, data: Club[]}> {
+    let params = new HttpParams(); 
+    if (name) {
+      params = params.append('name', name);
+    }
+    return this.http.get<{message: string, data: Club[]}>(this.apiUrl, {params});
   }
 
   createClub(Club: Club): Observable<{message: string, data: Club}> {
@@ -31,4 +36,3 @@ export class ClubService {
     return this.http.delete<{message: string}>(`${this.apiUrl}/${id}`);
   }
 }
-

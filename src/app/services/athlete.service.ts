@@ -42,4 +42,3 @@ export class AthleteService {
     return this.http.delete<{message: string}>(`${this.apiUrl}/${id}`);
   }
 }
-

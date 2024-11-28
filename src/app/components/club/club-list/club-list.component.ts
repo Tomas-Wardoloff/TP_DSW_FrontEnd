@@ -21,6 +21,9 @@ export class ClubListComponent implements OnInit {
   error: string = '';
   message: string = '';
 
+  // Filtros
+  nameFilter: string = '';
+
   constructor(
     private clubService: ClubService,
     private userService: UserService, 
@@ -34,7 +37,7 @@ export class ClubListComponent implements OnInit {
 
   fetchClubs(): void {
     this.isLoading = true;
-    this.clubService.getClubs().subscribe({
+    this.clubService.getClubs(this.nameFilter).subscribe({
       next: (response) => {
         this.clubs = response.data;
         this.isLoading = false;
@@ -73,5 +76,11 @@ export class ClubListComponent implements OnInit {
 
   navigateToNewClub(): void {
     this.router.navigate(['clubs/new']); // redirige a la ruta para crear clubes
+  }
+
+  onNameFilterChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.nameFilter = inputElement.value;
+    this.fetchClubs();
   }
 }
